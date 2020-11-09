@@ -58,6 +58,8 @@
 
 (package! typescript-mode :recipe (:branch "feature/types-in-declarations"))
 
+(package! company-box :recipe (:repo "tam5/company-box"))
+
 (package! prettier-js)
 (package! request)
 (package! move-text)

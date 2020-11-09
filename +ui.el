@@ -67,3 +67,14 @@
     (set-frame-position (selected-frame) x y)))
 
 (add-hook 'window-setup-hook #'+ui/snap-frame-to-view)
+
+(defun +ui/company-childrame-ui-hack (orig-fun &rest args)
+  "Set some frame parameters AFTER the frame has already been created.
+This for whatever reason currently gives us the UI effect we want."
+  (let ((frame (apply orig-fun args)))
+    (set-frame-parameter frame 'undecorated t)
+    (set-frame-parameter frame 'ns-appearance 'light)
+    frame))
+
+(when (featurep! :completion company +childframe)
+  (advice-add 'company-box--make-frame :around #'+ui/company-childrame-ui-hack))
