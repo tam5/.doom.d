@@ -47,10 +47,8 @@
   (setq highlight-indent-guides-character ?\┊))
 
 ;; let's keep the window nice and minimal
-(setq default-frame-alist '((undecorated . t)))
-(add-to-list 'default-frame-alist '(drag-internal-border . 1))
-(add-to-list 'default-frame-alist '(internal-border-width . 1))
 (toggle-scroll-bar -1)
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
 (defvar +ui/frame-gutter-factor 20)
 
@@ -64,7 +62,7 @@
          (x (+ (pop attrs) +ui/frame-gutter-factor))
          (y (+ (pop attrs) +ui/frame-gutter-factor))
          (width (- (pop attrs) (* 3 +ui/frame-gutter-factor)))
-         (height (- (pop attrs) (* 2 +ui/frame-gutter-factor))))
+         (height (- (pop attrs) (* 3 +ui/frame-gutter-factor))))
     (set-frame-size (selected-frame) width height t)
     (set-frame-position (selected-frame) x y)))
 

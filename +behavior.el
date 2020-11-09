@@ -20,4 +20,7 @@
       company-minimum-prefix-length 0
       company-lsp-cache-candidates t)
 
-(setq lsp-prefer-capf  t)
+(setq lsp-keep-workspace-alive t
+      lsp-file-watch-threshold nil
+      lsp-eldoc-render-all t)
+
