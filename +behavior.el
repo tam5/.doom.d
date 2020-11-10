@@ -22,5 +22,8 @@
 
 (setq lsp-keep-workspace-alive t
       lsp-file-watch-threshold nil
-      lsp-eldoc-render-all t)
-
+      lsp-eldoc-render-all nil
+      lsp-ui-doc-enable t
+      lsp-ui-doc-max-height 20
+      lsp-ui-doc-delay .7
+      lsp-ui-doc-max-width 150)
