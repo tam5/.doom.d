@@ -76,8 +76,7 @@
       :n "tc" #'phpunit-current-class
       :n "ta" #'phpunit-current-project)
 
-(after! markdown-mode
-  (map! :map markdown-mode-map
-        :nvi "s-b" #'markdown-insert-bold
-        :nvi "s-i" #'markdown-insert-italic
-        :i "M-`" #'+utils/insert-backtic))
+(map! :mode evil-markdown-mode
+      :nvi "s-b" #'markdown-insert-bold
+      :nvi "s-i" #'markdown-insert-italic
+      :i "M-`" #'+utils/insert-backtic)
