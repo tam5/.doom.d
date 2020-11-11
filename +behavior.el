@@ -15,11 +15,6 @@
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
-;; make company show up faster
-(setq company-idle-delay 0
-      company-minimum-prefix-length 0
-      company-lsp-cache-candidates t)
-
 (setq lsp-keep-workspace-alive t
       lsp-file-watch-threshold nil
       lsp-eldoc-render-all nil

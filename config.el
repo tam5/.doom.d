@@ -10,10 +10,11 @@
 ;;; /
 
 (load! "+utils")
-(load! "+keybindings")
 (load! "+ui")
 (load! "+behavior")
+(load! "+completion")
 (load! "+liveintent")
+(load! "+keybindings")
 
 ;; These are used for a number of things, particularly for GPG configuration,
 ;; some email clients, file templates and snippets.

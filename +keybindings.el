@@ -63,8 +63,8 @@
 (map! (:when (featurep! :completion company)
        (:after company
         (:map company-active-map
-              "TAB"     #'+utils/expand-snippet-or-complete-selection
-              [tab]     #'+utils/expand-snippet-or-complete-selection))))
+              "TAB"     #'+completion/expand-snippet-or-complete-selection
+              [tab]     #'+completion/expand-snippet-or-complete-selection))))
 
 (map! :mode restclient-mode
       :prefix +keybindings/prefix

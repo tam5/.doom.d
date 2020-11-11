@@ -61,10 +61,3 @@ To use it properly, select everything within the delimiters."
   (let* ((frame (selected-frame))
          (current-decoration (frame-parameter frame 'undecorated)))
     (set-frame-parameter frame 'undecorated (not current-decoration))))
-
-(defun +utils/expand-snippet-or-complete-selection ()
-  (interactive)
-  (if (or (not yas/minor-mode)
-      (null (yas/expand))
-      (company-abort))
-      (company-complete-selection)))
