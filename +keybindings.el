@@ -66,6 +66,10 @@
               "TAB"     #'+completion/expand-snippet-or-complete-selection
               [tab]     #'+completion/expand-snippet-or-complete-selection))))
 
+(map! :mode treemacs-mode
+      :prefix +keybindings/prefix
+      :n "td" #'treemacs-remove-project-from-workspace)
+
 (map! :mode restclient-mode
       :prefix +keybindings/prefix
       :n "r" #'restclient-http-send-current)

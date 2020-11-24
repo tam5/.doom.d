@@ -9,6 +9,8 @@
 ;;; | applied on top of doom is configured via this file. Please keep it neat and tidy!
 ;;; /
 
+(setq default-directory "~/")
+
 (load! "+utils")
 (load! "+ui")
 (load! "+behavior")
