@@ -34,6 +34,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
 (setq doom-theme 'doom-moonlight)
+(setq doom-themes-treemacs-theme "doom-colors")
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
