@@ -23,7 +23,7 @@
 (setq user-full-name "Ari Miller"
       user-mail-address "arimiller92@gmail.com")
 
-(add-hook 'web-mode-hook 'prettier-js-mode)
-(add-hook 'typescript-mode-hook 'prettier-js-mode)
-(add-hook 'vue-mode-hook 'prettier-js-mode)
-(add-hook 'js2-mode-hook 'prettier-js-mode)
+(add-hook 'web-mode-hook '+utils/maybe-enable-prettier)
+(add-hook 'typescript-mode-hook '+utils/maybe-enable-prettier)
+(add-hook 'vue-mode-hook '+utils/maybe-enable-prettier)
+(add-hook 'js2-mode-hook '+utils/maybe-enable-prettier)

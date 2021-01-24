@@ -61,3 +61,24 @@ To use it properly, select everything within the delimiters."
   (let* ((frame (selected-frame))
          (current-decoration (frame-parameter frame 'undecorated)))
     (set-frame-parameter frame 'undecorated (not current-decoration))))
+
+(defun +utils/project-file-exists-p (filename)
+  "Check if a file exists within the current project"
+  (projectile-file-exists-p (concat (projectile-project-root) filename)))
+
+(defun +utils/project-file-contains (file str)
+  "Check if a string is present in the projects package.json file. Usefule
+for checking if a dependency is meant to be present."
+  (when (projectile-project-p)
+      (let ((config (concat (projectile-project-root) file)))
+        (when (file-exists-p config)
+          (with-temp-buffer
+            (insert-file-contents config)
+            (goto-char 1)
+            (search-forward str nil t))))))
+
+(defun +utils/maybe-enable-prettier ()
+  "Enable prettier-js only if the project seems to use it."
+  (when (or (+utils/project-file-exists-p ".prettierrc")
+            (+utils/project-file-contains "package.json" "prettier"))
+    (prettier-js-mode 1)))
