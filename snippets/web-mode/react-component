@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: React Component
+# key: com
+# --
+export default function ${1:`(s-upper-camel-case (file-name-base (buffer-file-name)))`}($2) {
+  return <>$3</>
+}
