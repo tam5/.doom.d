@@ -33,8 +33,14 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-moonlight)
+(setq doom-theme 'doom-one)
 (setq doom-themes-treemacs-theme "doom-colors")
+
+(defun +ui/apply-theme-overrides ()
+  "Add any theme overrides after the theme is loaded."
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic))
+
+(add-hook 'doom-load-theme-hook #'+ui/apply-theme-overrides)
 
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
@@ -79,3 +85,37 @@ This for whatever reason currently gives us the UI effect we want."
 
 (when (featurep! :completion company +childframe)
   (advice-add 'company-box--make-frame :around #'+ui/company-childrame-ui-hack))
+
+
+(defun +ui/highlight-indent-guides--bitmap-dots (width height crep zrep)
+  "Defines a dotted guide line, with 2x2 pixel dots, and 3 or 4 dots per row.
+Use WIDTH, HEIGHT, CREP, and ZREP as described in
+`highlight-indent-guides-bitmap-function'."
+  (let* ((left (/ (- width 2) 2))
+         (right (- width left 2))
+         (space3 (/ height 6))
+         (space31 (/ (- space3 2) 2))
+         (space4 (/ height 6))
+         (space41 (/ (- space4 2) 2))
+         (row1 (append (make-list left zrep) (make-list 2 crep) (make-list right zrep)))
+         (row2 (make-list (- width 0) zrep))
+         space space1 rows)
+    (message "crep %s" crep)
+    (message "zrep %s" zrep)
+    (message "row1 %s" row1)
+    (message "row2 %s" row2)
+    (if (< (abs (- space4 space41 space41)) (abs (- space3 space31 space31)))
+        (setq space space4 space1 space41)
+      (setq space space3 space1 space31))
+    (dotimes (i (+ height 2) rows)
+      (if (let ((x (mod (- i space1) space))) (or (eq x 0) (eq x 1)))
+          (setq rows (cons row1 rows))
+        (setq rows (cons row2 rows))))))
+
+(use-package! highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-method 'bitmap
+        highlight-indent-guides-responsive 'top
+        highlight-indent-guides-bitmap-function '+ui/highlight-indent-guides--bitmap-dots
+        highlight-indent-guides-auto-character-face-perc 1
+        highlight-indent-guides-auto-top-character-face-perc 5))
