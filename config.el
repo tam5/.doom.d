@@ -13,6 +13,7 @@
 
 (load! "+utils")
 (load! "+ui")
+(load! "+icons")
 (load! "+behavior")
 (load! "+completion")
 (load! "+liveintent")

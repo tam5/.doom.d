@@ -19,8 +19,15 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; test
-(setq doom-font (font-spec :family "Operator Mono 1.2" :size 15)
-      doom-variable-pitch-font (font-spec :family "Operator Mono 1.3" :size 14))
+
+;; TODO remove
+(setq custom-safe-themes t)
+
+
+(setq doom-font (font-spec :family "Operator Mono 1.2" :size 15))
+      ;; doom-variable-pitch-font (font-spec :family "Operator Mono 1.3" :size 14))
+
+(setq doom-variable-pitch-font (font-spec :family "Roboto 1.2" :size 11))
 
 (defface +ui/dashboard-face
   `((t (:family "Operator Mono")))
@@ -33,7 +40,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-seti)
 (setq doom-themes-treemacs-theme "doom-colors")
 
 (defun +ui/apply-theme-overrides ()
