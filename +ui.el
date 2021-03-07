@@ -20,8 +20,37 @@
 ;; font string. You generally only need these two:
 ;; test
 
+
 ;; TODO remove
 (setq custom-safe-themes t)
+
+(defface +ui/doom-modeline-spc-face
+  `((t (:foreground "#ff0000")))
+  "Face to use for the dashboard."
+  :group 'faces)
+
+(setq doom-modeline-height 40)
+
+(defsubst +ui/doom-modeline-spc ()
+  "Text style with whitespace."
+  (let* ((face (if (doom-modeline--active)
+              'doom-modeline-spc-face
+              'mode-line-inactive))
+         (fg (face-background face nil t)))
+  (propertize (s-repeat 5 "‡") 'face `(:foreground ,fg))))
+
+(after! doom-modeline
+  (doom-modeline-def-segment +ui/modeline-spc
+    (+ui/doom-modeline-spc))
+
+  (doom-modeline-def-modeline '+ui/modeline
+    '(bar matches buffer-info remote-host parrot selection-info)
+    '(process checker lsp vcs +ui/modeline-spc major-mode))
+
+  (defun +ui/set-modeline ()
+    (doom-modeline-set-modeline '+ui/modeline 'default))
+
+  (add-hook 'doom-modeline-mode-hook '+ui/set-modeline))
 
 
 (setq doom-font (font-spec :family "Operator Mono 1.2" :size 15))
@@ -107,10 +136,10 @@ Use WIDTH, HEIGHT, CREP, and ZREP as described in
          (row1 (append (make-list left zrep) (make-list 2 crep) (make-list right zrep)))
          (row2 (make-list (- width 0) zrep))
          space space1 rows)
-    (message "crep %s" crep)
-    (message "zrep %s" zrep)
-    (message "row1 %s" row1)
-    (message "row2 %s" row2)
+    ;; (message "crep %s" crep)
+    ;; (message "zrep %s" zrep)
+    ;; (message "row1 %s" row1)
+    ;; (message "row2 %s" row2)
     (if (< (abs (- space4 space41 space41)) (abs (- space3 space31 space31)))
         (setq space space4 space1 space41)
       (setq space space3 space1 space31))

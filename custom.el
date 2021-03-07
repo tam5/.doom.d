@@ -4,9 +4,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#282c34" "#ff6c6b" "#98be65" "#ECBE7B" "#51afef" "#c678dd" "#46D9FF" "#bbc2cf"])
+   ["#E5E9F0" "#ff6c6b" "#98be65" "#ECBE7B" "#51afef" "#c678dd" "#46D9FF" "#bbc2cf"])
  '(custom-safe-themes
-   '("5f5d9239a0868b5337d0eb640014dd2206c6d6321a63f6d7045e6dbe3ec7863d" "c0a304d0e9264f6ea8c7f2211d78d59a93e3f477fbe63ccb18bc1529f7b25fc0" "73bc9dc23ad79c4c1e820fe2f7dec006f9e341592aacf7360e85c4ae0bd928d1" "e5a9457d1ea6bf22e080f538d29e2efd495ccf315434195ce5baa1726e8fdc51" "8f5a7a9a3c510ef9cbb88e600c0b4c53cdcdb502cfe3eb50040b7e13c6f4e78e" "3a4d9884af4553b76fd17475301231419987e3173162986261484b540db278ea" default))
+   '("91d078d6b193e39f80e22dad1253811473a071c618f398518036a90451ccd006" "e074be1c799b509f52870ee596a5977b519f6d269455b84ed998666cf6fc802a" "5f5d9239a0868b5337d0eb640014dd2206c6d6321a63f6d7045e6dbe3ec7863d" "c0a304d0e9264f6ea8c7f2211d78d59a93e3f477fbe63ccb18bc1529f7b25fc0" "73bc9dc23ad79c4c1e820fe2f7dec006f9e341592aacf7360e85c4ae0bd928d1" "e5a9457d1ea6bf22e080f538d29e2efd495ccf315434195ce5baa1726e8fdc51" "8f5a7a9a3c510ef9cbb88e600c0b4c53cdcdb502cfe3eb50040b7e13c6f4e78e" "3a4d9884af4553b76fd17475301231419987e3173162986261484b540db278ea" default))
  '(fci-rule-color "#5B6268")
  '(jdee-db-active-breakpoint-face-colors (cons "#1B2229" "#51afef"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#1B2229" "#98be65"))
