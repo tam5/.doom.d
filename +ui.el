@@ -20,43 +20,14 @@
 ;; font string. You generally only need these two:
 ;; test
 
+(setq doom-font (font-spec :family "Operator Mono 1.2" :size 15)
+      doom-variable-pitch-font (font-spec :family "Roboto 1.2" :size 11))
 
-;; TODO remove
-(setq custom-safe-themes t)
+;; let's keep the window nice and minimal
+(toggle-scroll-bar -1)
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
-(defface +ui/doom-modeline-spc-face
-  `((t (:foreground "#ff0000")))
-  "Face to use for the dashboard."
-  :group 'faces)
-
-(setq doom-modeline-height 40)
-
-(defsubst +ui/doom-modeline-spc ()
-  "Text style with whitespace."
-  (let* ((face (if (doom-modeline--active)
-              'doom-modeline-spc-face
-              'mode-line-inactive))
-         (fg (face-background face nil t)))
-  (propertize (s-repeat 5 "‡") 'face `(:foreground ,fg))))
-
-(after! doom-modeline
-  (doom-modeline-def-segment +ui/modeline-spc
-    (+ui/doom-modeline-spc))
-
-  (doom-modeline-def-modeline '+ui/modeline
-    '(bar matches buffer-info remote-host parrot selection-info)
-    '(process checker lsp vcs +ui/modeline-spc major-mode))
-
-  (defun +ui/set-modeline ()
-    (doom-modeline-set-modeline '+ui/modeline 'default))
-
-  (add-hook 'doom-modeline-mode-hook '+ui/set-modeline))
-
-
-(setq doom-font (font-spec :family "Operator Mono 1.2" :size 15))
-      ;; doom-variable-pitch-font (font-spec :family "Operator Mono 1.3" :size 14))
-
-(setq doom-variable-pitch-font (font-spec :family "Roboto 1.2" :size 11))
+(defvar +ui/frame-gutter-factor 20)
 
 (defface +ui/dashboard-face
   `((t (:family "Operator Mono")))
@@ -82,24 +53,35 @@
 ;; `nil' to disable it:
 (setq display-line-numbers-type t)
 
+;; some adjustments to the doom modeline for even more minimalism
+(after! doom-modeline
+  (setq doom-modeline-height 40)
+
+  (defsubst +ui/doom-modeline-spc (size)
+    (let* ((face (if (doom-modeline--active)
+                     'doom-modeline-spc-face
+                   'mode-line-inactive))
+           (fg (face-background face nil t)))
+      (propertize (s-repeat size "‡") 'face `(:foreground ,fg))))
+
+  (doom-modeline-def-segment +ui/modeline-spc
+    (+ui/doom-modeline-spc 8))
+
+  (doom-modeline-def-modeline '+ui/modeline
+    '(bar matches buffer-info remote-host parrot selection-info)
+    '(process checker lsp +ui/modeline-spc vcs +ui/modeline-spc major-mode +ui/modeline-spc))
+
+  (defun +ui/set-modeline ()
+    (doom-modeline-set-modeline '+ui/modeline 'default))
+  (add-hook 'doom-modeline-mode-hook '+ui/set-modeline))
+
 ;; don't collapse treemacs directories with only one node
 (after! treemacs
   (setq treemacs-collapse-dirs 0))
 
-(after! highlight-indent-guides
-  (setq highlight-indent-guides-character ?\┊))
-
-;; let's keep the window nice and minimal
-(toggle-scroll-bar -1)
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-
-(defvar +ui/frame-gutter-factor 20)
-
-;; auto set the frame size to 'fullscreen' but with
-;; some uniform gutters to add some breathing room
-(setq frame-resize-pixelwise t)
-
 (defun +ui/snap-frame-to-view ()
+  "Auto set the frame size to 'fullscreen' but with
+some uniform gutters to add some breathing room."
   (interactive)
   (let* ((attrs (frame-monitor-workarea))
          (x (+ (pop attrs) +ui/frame-gutter-factor))
@@ -121,7 +103,6 @@ This for whatever reason currently gives us the UI effect we want."
 
 (when (featurep! :completion company +childframe)
   (advice-add 'company-box--make-frame :around #'+ui/company-childrame-ui-hack))
-
 
 (defun +ui/highlight-indent-guides--bitmap-dots (width height crep zrep)
   "Defines a dotted guide line, with 2x2 pixel dots, and 3 or 4 dots per row.

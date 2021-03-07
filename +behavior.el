@@ -22,3 +22,5 @@
       lsp-ui-doc-max-height 20
       lsp-ui-doc-delay .7
       lsp-ui-doc-max-width 150)
+
+(setq frame-resize-pixelwise t)
