@@ -65,6 +65,11 @@ Our override is to adjust the faces."
   (doom-modeline-def-segment +modeline/spacer
     (+modeline/spacer 8))
 
+  (doom-modeline-def-segment +modeline/vcs
+    (let ((meta (doom-modeline-segment--vcs)))
+      (message "my meta %s" meta)
+      (concat meta (when meta (doom-modeline-segment--+modeline/spacer)))))
+
   (doom-modeline-def-segment +modeline/matches
     "See segment: `matches'.
 Our override is just to remove the buffer size information cuz we don't really need it."
@@ -77,8 +82,8 @@ Our override is just to remove the buffer size information cuz we don't really n
 
   ;; the modeline
   (doom-modeline-def-modeline '+modeline/modeline
-  '(bar buffer-info +modeline/spacer buffer-position remote-host selection-info +modeline/matches)
-  '(misc-info battery github debug repl lsp process checker vcs major-mode))
+  '(bar +modeline/spacer-small buffer-info +modeline/spacer buffer-position remote-host selection-info +modeline/matches)
+  '(misc-info battery github debug repl lsp process checker +modeline/vcs major-mode +modeline/spacer-small))
 
   (defun +modeline/set-modeline ()
     (doom-modeline-set-modeline '+modeline/modeline 'default))
