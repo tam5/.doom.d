@@ -53,28 +53,6 @@
 ;; `nil' to disable it:
 (setq display-line-numbers-type t)
 
-;; some adjustments to the doom modeline for even more minimalism
-(after! doom-modeline
-  (setq doom-modeline-height 40)
-
-  (defsubst +ui/doom-modeline-spc (size)
-    (let* ((face (if (doom-modeline--active)
-                     'doom-modeline-spc-face
-                   'mode-line-inactive))
-           (fg (face-background face nil t)))
-      (propertize (s-repeat size "‡") 'face `(:foreground ,fg))))
-
-  (doom-modeline-def-segment +ui/modeline-spc
-    (+ui/doom-modeline-spc 8))
-
-  (doom-modeline-def-modeline '+ui/modeline
-    '(bar matches buffer-info remote-host parrot selection-info)
-    '(process checker lsp +ui/modeline-spc vcs +ui/modeline-spc major-mode +ui/modeline-spc))
-
-  (defun +ui/set-modeline ()
-    (doom-modeline-set-modeline '+ui/modeline 'default))
-  (add-hook 'doom-modeline-mode-hook '+ui/set-modeline))
-
 ;; don't collapse treemacs directories with only one node
 (after! treemacs
   (setq treemacs-collapse-dirs 0))

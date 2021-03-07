@@ -13,6 +13,7 @@
 
 (load! "+utils")
 (load! "+ui")
+(load! "+modeline")
 (load! "+icons")
 (load! "+behavior")
 (load! "+completion")
