@@ -23,40 +23,40 @@
            (fg (face-background face nil t)))
       (propertize (s-repeat size "‡") 'face `(:foreground ,fg))))
 
-;;   (defun +modeline/update-vcs-icon (&rest _)
-;;     "See `doom-modeline-update-vcs-icon'.
-;; Our override is to adjust the icons and faces."
-;;     (setq doom-modeline--vcs-icon
-;;           (when (and vc-mode buffer-file-name)
-;;             (let* ((backend (vc-backend buffer-file-name))
-;;                    (state   (vc-state buffer-file-name backend)))
-;;               (cond ((memq state '(edited added))
-;;                      (propertize "⇆" 'face 'doom-modeline-info))
-;;                     ((eq state 'needs-merge)
-;;                      (propertize "⇆" 'face 'doom-modeline-info))
-;;                     ((eq state 'needs-update)
-;;                      (propertize "↓" 'face 'doom-modeline-info))
-;;                     ((memq state '(removed conflict unregistered))
-;;                      (propertize "⚠" 'face 'doom-modeline-info))
-;;                     (t
-;;                    (all-the-icons-insert-octicon "git-branch")))))))
 (defun +modeline/update-vcs-icon (&rest _)
-  "Update icon of vcs state in mode-line."
+    "See `doom-modeline-update-vcs-icon'.
+Our override is to adjust the icons and faces."
   (setq doom-modeline--vcs-icon
         (when (and vc-mode buffer-file-name)
           (let* ((backend (vc-backend buffer-file-name))
                  (state   (vc-state buffer-file-name backend)))
-            (cond ((memq state '(edited added))
-                   (doom-modeline-vcs-icon "git-compare" "⇆" "*" 'doom-modeline-info -0.05))
-                  ((eq state 'needs-merge)
-                   (doom-modeline-vcs-icon "git-merge" "⛙" "?" 'doom-modeline-info))
+            (cond ((memq state '(edited added needs-merge conflict))
+                   (doom-modeline-icon 'material "compare_arrows" "" "@" :face 'mode-line :v-adjust -0.2 :height 0.8))
                   ((eq state 'needs-update)
-                   (doom-modeline-vcs-icon "arrow-down" "↓" "!" 'doom-modeline-warning))
-                  ((memq state '(removed conflict unregistered))
-                   (doom-modeline-vcs-icon "alert" "⚠" "!" 'doom-modeline-urgent))
+                   (doom-modeline-vcs-icon "arrow-down" "↓" "!" 'mode-line))
+                  ((memq state '(removed unregistered))
+                   (doom-modeline-vcs-icon "alert" "⚠" "!" 'mode-line))
                   (t
-                   (doom-modeline-icon 'octicon "git-branch" "" "@" :face 'doom-modeline-info :v-adjust -0.05 :height 0.5)))))))
+                   (doom-modeline-icon 'octicon "git-branch" "" "@" :face 'mode-line :v-adjust -0.05 :height 0.7)))))))
   (advice-add 'doom-modeline-update-vcs-icon :around #'+modeline/update-vcs-icon)
+(defun +modeline/update-vcs-text (&rest _)
+    "See `doom-modeline-update-vcs-text'.
+Our override is to adjust the faces."
+  (setq doom-modeline--vcs-text
+        (when (and vc-mode buffer-file-name)
+          (let* ((backend (vc-backend buffer-file-name))
+                 (state (vc-state buffer-file-name backend))
+                 (str (if vc-display-status
+                          (substring vc-mode (+ (if (eq backend 'Hg) 2 3) 2))
+                        "")))
+            (propertize (if (> (length str) doom-modeline-vcs-max-length)
+                            (concat
+                             (substring str 0 (- doom-modeline-vcs-max-length 3))
+                             "...")
+                          str)
+                        'mouse-face 'mode-line-highlight
+                        'face 'mode-line)))))
+  (advice-add 'doom-modeline-update-vcs-text :around #'+modeline/update-vcs-text)
 
   ;; segments
   (doom-modeline-def-segment +modeline/spacer-small
