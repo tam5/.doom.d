@@ -112,5 +112,5 @@ Use WIDTH, HEIGHT, CREP, and ZREP as described in
   (setq highlight-indent-guides-method 'bitmap
         highlight-indent-guides-responsive 'top
         highlight-indent-guides-bitmap-function '+ui/highlight-indent-guides--bitmap-dots
-        highlight-indent-guides-auto-character-face-perc 1
-        highlight-indent-guides-auto-top-character-face-perc 5))
+        highlight-indent-guides-auto-character-face-perc 7
+        highlight-indent-guides-auto-top-character-face-perc 10))
