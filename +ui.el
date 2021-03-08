@@ -23,6 +23,8 @@
 (setq doom-font (font-spec :family "Operator Mono 1.2" :size 15)
       doom-variable-pitch-font (font-spec :family "Roboto 1.2" :size 11))
 
+(setq-default right-fringe-width 20)
+
 ;; let's keep the window nice and minimal
 (toggle-scroll-bar -1)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -110,3 +112,45 @@ Use WIDTH, HEIGHT, CREP, and ZREP as described in
         highlight-indent-guides-bitmap-function '+ui/highlight-indent-guides--bitmap-dots
         highlight-indent-guides-auto-character-face-perc 7
         highlight-indent-guides-auto-top-character-face-perc 10))
+
+;; make flycheck indicators a bit more appealing
+(define-fringe-bitmap '+ui/flycheck-fringe-indicator
+  (vector #b00000000
+          #b00000000
+          #b00000000
+          #b00000000
+          #b00000000
+          #b00000000
+          #b00000000
+          #b00011100
+          #b00111110
+          #b00111110
+          #b00111110
+          #b00011100
+          #b00000000
+          #b00000000
+          #b00000000
+          #b00000000
+          #b00000000))
+
+  (flycheck-define-error-level 'error
+    :severity 100
+    :compilation-level 2
+    :overlay-category 'flycheck-error-overlay
+    :fringe-bitmap '+ui/flycheck-fringe-indicator
+    :fringe-face 'flycheck-fringe-error
+    :error-list-face 'flycheck-error-list-error)
+  (flycheck-define-error-level 'warning
+    :severity 10
+    :compilation-level 1
+    :overlay-category 'flycheck-warning-overlay
+    :fringe-bitmap '+ui/flycheck-fringe-indicator
+    :fringe-face 'flycheck-fringe-warning
+    :error-list-face 'flycheck-error-list-warning)
+  (flycheck-define-error-level 'info
+    :severity -10
+    :compilation-level 0
+    :overlay-category 'flycheck-info-overlay
+    :fringe-bitmap '+ui/flycheck-fringe-indicator
+    :fringe-face 'flycheck-fringe-info
+    :error-list-face 'flycheck-error-list-info)
