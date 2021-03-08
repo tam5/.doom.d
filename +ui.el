@@ -26,6 +26,9 @@
 ;; let's keep the window nice and minimal
 (toggle-scroll-bar -1)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(setq ns-use-thin-smoothing t
+      ns-use-proxy-icon nil
+      frame-title-format nil)
 
 (defvar +ui/frame-gutter-factor 20)
 
