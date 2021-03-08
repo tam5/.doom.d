@@ -23,13 +23,13 @@
 (setq doom-font (font-spec :family "Operator Mono 1.2" :size 15)
       doom-variable-pitch-font (font-spec :family "Roboto 1.2" :size 11))
 
-(setq-default right-fringe-width 20)
-
 ;; let's keep the window nice and minimal
 (toggle-scroll-bar -1)
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 
 (defvar +ui/frame-gutter-factor 20)
+
+(setq-default right-fringe-width 20)
 
 (defface +ui/dashboard-face
   `((t (:family "Operator Mono")))
