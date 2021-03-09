@@ -125,7 +125,7 @@ mouse-2: Show help for minor mode")
   ;; building blocks
   (defsubst +modeline/spacer (size)
     (let* ((face (if (doom-modeline--active)
-                     'solaire-mode-line-face
+                     'mode-line
                    'mode-line-inactive))
            (fg (face-background face nil t)))
       (propertize (s-repeat size "‡") 'face `(:foreground ,fg))))
