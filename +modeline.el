@@ -62,12 +62,12 @@ Our override is to adjust the icons and faces."
                      (doom-modeline-icon 'faicon "lock" "🔒" "%1*" :face 'mode-line :v-adjust 0 :height 0.8))
                      ((and buffer-file-name (buffer-modified-p)
                            doom-modeline-buffer-modification-icon)
-                     (doom-modeline-icon 'faicon "circle" "💾" "%1*" :face 'all-the-icons-lblue :v-adjust 0.20 :height 0.5))
+                     (doom-modeline-icon 'material "edit" "💾" "%1*" :face 'all-the-icons-lblue :v-adjust -0.1 :height 0.8))
                      ((and buffer-file-name
                            (not (file-exists-p buffer-file-name)))
                       (doom-modeline-buffer-file-state-icon
                        "do_not_disturb_alt" "🚫" "!" 'doom-modeline-urgent))
-                     (t (doom-modeline-icon 'faicon "circle" "💾" "%1*" :face 'mode-line :v-adjust 0.20 :height 0.5)))
+                     (t (doom-modeline-icon 'faicon "circle" "💾" "%1*" :face 'mode-line :v-adjust 0.30 :height 0.5)))
                (when (or (buffer-narrowed-p)
                          (and (bound-and-true-p fancy-narrow-mode)
                               (fancy-narrow-active-p))
