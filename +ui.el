@@ -30,8 +30,6 @@
       ns-use-proxy-icon nil
       frame-title-format nil)
 
-(defvar +ui/frame-gutter-factor 20)
-
 (setq-default right-fringe-width 20)
 
 (defface +ui/dashboard-face
@@ -67,10 +65,10 @@
 some uniform gutters to add some breathing room."
   (interactive)
   (let* ((attrs (frame-monitor-workarea))
-         (x (+ (pop attrs) +ui/frame-gutter-factor))
-         (y (+ (pop attrs) +ui/frame-gutter-factor))
-         (width (- (pop attrs) (* 3 +ui/frame-gutter-factor)))
-         (height (- (pop attrs) (* 3 +ui/frame-gutter-factor))))
+         (x (+ (pop attrs) 50))
+         (y (+ (pop attrs) 60))
+         (width (- (pop attrs) 120))
+         (height (- (pop attrs) 120)))
     (set-frame-size (selected-frame) width height t)
     (set-frame-position (selected-frame) x y)))
 
