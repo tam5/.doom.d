@@ -14,6 +14,9 @@
 (defvar heimdall-token nil
   "The current heimdall token.")
 
+(defvar heimdall-refresh-token nil
+  "The current heimdall refresh token.")
+
 (defvar heimdall-host nil
   "The current heimdall host.")
 
@@ -29,6 +32,8 @@
     (save-match-data
       ;; update regexp to extract required data
       (when (re-search-forward "\"access_token\":\"\\(.*?\\)\"" nil t)
-        (setq heimdall-token (match-string 1))))))
+        (setq heimdall-token (match-string 1))
+      (when (re-search-forward "\"refresh_token\":\"\\(.*?\\)\"" nil t)
+        (setq heimdall-refresh-token (match-string 1)))))))
 
 (add-hook 'restclient-response-received-hook #'+liveintent/restclient-hook)
