@@ -174,9 +174,9 @@ Use WIDTH, HEIGHT, CREP, and ZREP as described in
    '((mode-line mode-line-inactive)
      :family "Roboto" :height 125 :weight normal)
 
-   '(treemacs-file-face :foreground "#aaaaaa")
-   '(treemacs-directory-face :foreground "#aaaaaa")
-   '(treemacs-root-face :foreground "#aaaaaa")
+   `(treemacs-file-face :foreground ,(doom-color 'fg-alt))
+   `(treemacs-directory-face :foreground ,(doom-color 'fg-alt))
+   `(treemacs-root-face :foreground ,(doom-color 'fg-alt))
 
    '(all-the-icons-red :foreground "#B42839")
    '(all-the-icons-lred :foreground "#E54542")
