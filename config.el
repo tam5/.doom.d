@@ -29,3 +29,5 @@
 (add-hook 'typescript-mode-hook '+utils/maybe-enable-prettier)
 (add-hook 'vue-mode-hook '+utils/maybe-enable-prettier)
 (add-hook 'js2-mode-hook '+utils/maybe-enable-prettier)
+
+(setq lsp-intelephense-licence-key "***REMOVED***")
