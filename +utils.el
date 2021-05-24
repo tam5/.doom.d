@@ -29,6 +29,20 @@ multiple lines are selected, the lines will sort themselves instead."
       (call-interactively 'sort-lines)
   (sort-regexp-fields nil "[a-z]+" "\\&" (region-beginning) (region-end))))
 
+(defun +utils/sort-lines-by-length (reverse beg end)
+  "Sort lines by length."
+  (interactive "P\nr")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region beg end)
+      (goto-char (point-min))
+      (let ;; To make `end-of-line' and etc. to ignore fields.
+          ((inhibit-field-text-motion t))
+        (sort-subr reverse 'forward-line 'end-of-line nil nil
+                   (lambda (l1 l2)
+                     (apply #'< (mapcar (lambda (range) (- (cdr range) (car range)))
+                                        (list l1 l2)))))))))
+
 (defun +utils/what-face (pos)
   "Get the faces of the current position. Used for debugging."
     (interactive "d")

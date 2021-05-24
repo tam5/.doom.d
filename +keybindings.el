@@ -22,6 +22,7 @@
  :n "es" (lambda () (interactive) (find-file (file-truename "~/.dotfiles/aliases")))
  :n "1" #'+treemacs/toggle
  :n "2" #'+treemacs/find-file
+ :n "a" #'lsp-execute-code-action
  :n "j" #'counsel-projectile-switch-project
  :n "f" #'evil-avy-goto-word-0
  :n "v" #'evil-window-vsplit
