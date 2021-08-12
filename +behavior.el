@@ -24,3 +24,5 @@
       lsp-ui-doc-max-width 150)
 
 (setq frame-resize-pixelwise t)
+
+(setq confirm-kill-emacs nil)

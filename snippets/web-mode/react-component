@@ -2,7 +2,7 @@
 # name: React Component
 # key: com
 # --
-const ${1:`(s-upper-camel-case (file-name-base (buffer-file-name)))`}: React.FC = ($2) => {
+const ${1:`(s-upper-camel-case (file-name-base (buffer-file-name)))`} = ($2) => {
   return <>$3</>;
 }
 

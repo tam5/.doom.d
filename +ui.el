@@ -43,7 +43,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-seti)
+(setq doom-theme 'doom-city-lights)
 (setq doom-themes-treemacs-theme "doom-colors")
 
 (defun +ui/apply-theme-overrides ()
