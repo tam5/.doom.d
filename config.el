@@ -11,23 +11,23 @@
 
 (setq default-directory "~/")
 
-(load! "+utils")
-(load! "+ui")
-(load! "+modeline")
-(load! "+icons")
-(load! "+behavior")
-(load! "+completion")
-(load! "+liveintent")
-(load! "+keybindings")
+(load! "core/+utils")
+(load! "core/+ui")
+(load! "core/+modeline")
+(load! "core/+icons")
+(load! "core/+behavior")
+(load! "core/+completion")
+(load! "core/+liveintent")
+(load! "core/+keybindings")
 
 ;; These are used for a number of things, particularly for GPG configuration,
 ;; some email clients, file templates and snippets.
 (setq user-full-name "Ari Miller"
       user-mail-address "arimiller92@gmail.com")
 
-(add-hook 'web-mode-hook '+utils/maybe-enable-prettier)
-(add-hook 'typescript-mode-hook '+utils/maybe-enable-prettier)
-(add-hook 'vue-mode-hook '+utils/maybe-enable-prettier)
-(add-hook 'js2-mode-hook '+utils/maybe-enable-prettier)
+(add-hook 'web-mode-hook '+js/maybe-enable-prettier)
+(add-hook 'typescript-mode-hook '+js/maybe-enable-prettier)
+(add-hook 'vue-mode-hook '+js/maybe-enable-prettier)
+(add-hook 'js2-mode-hook '+js/maybe-enable-prettier)
 
 (setq lsp-intelephense-licence-key "***REMOVED***")

@@ -18,12 +18,12 @@
 (map!
  :prefix +keybindings/prefix
  :n "ev" (lambda () (interactive) (find-file (file-truename "~/.doom.d/config.el")))
- :n "ek" (lambda () (interactive) (find-file (file-truename "~/.doom.d/+keybindings.el")))
+ :n "ek" (lambda () (interactive) (find-file (file-truename "~/.doom.d/core/+keybindings.el")))
  :n "es" (lambda () (interactive) (find-file (file-truename "~/.dotfiles/aliases")))
  :n "1" #'+treemacs/toggle
  :n "2" #'+treemacs/find-file
  :n "a" #'lsp-execute-code-action
- :n "j" #'counsel-projectile-switch-project
+ :n "j" #'projectile-switch-project
  :n "f" #'evil-avy-goto-word-0
  :n "v" #'evil-window-vsplit
  :n "h" #'evil-window-split
@@ -36,16 +36,16 @@
  :nv (concat +keybindings/prefix "d") #'+doom-dashboard/open
  :nv (concat +keybindings/prefix "j") #'json-pretty-print
  :n (concat +keybindings/prefix "b") #'eval-buffer
- :n (concat +keybindings/prefix "s") #'ivy-resume)
+ :n (concat +keybindings/prefix "s") #'vertico-repeat)
 
 ;;
 ;; Non-Prefix based
 ;;
 (map!
  :i "M-`" #'+utils/insert-backtic
- :n "/" #'swiper-isearch
+ :n "/" #'+default/search-buffer
  :n "-" #'dired-jump
- :n "C-p" #'+ivy/projectile-find-file
+ :n "C-p" #'projectile-find-file
  :n "gr" #'lsp-find-references
  :ni "C-y" #'emmet-expand-yas
  :nvi "C-a" #'evil-numbers/inc-at-pt

@@ -19,10 +19,11 @@
        ;;japanese
 
        :completion
-       (company +childframe) ; the ultimate code completion backend
-       ;;helm               ; the *other* search engine for love and life
+       company             ; the ultimate code completion backend
+       ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +fuzzy)      ; a search engine for love and life
+       ;; (ivy +fuzzy)     ; a search engine for love and life
+       vertico             ; the search engine of the future
 
        :ui
        ; better-company
@@ -104,6 +105,10 @@
        ;;tmux              ; an API for interacting with tmux
        ;;upload            ; map local to remote projects via ssh/ftp
 
+       :os
+       (:if IS-MAC macos)  ; improve compatibility with macOS
+       ;;tty               ; improve the terminal Emacs experience
+
        :lang
        ;;agda              ; types of types of types of types...
        ;;assembly          ; assembly for fun or debugging
@@ -121,7 +126,7 @@
        ;;ess               ; emacs speaks statistics
        ;;faust             ; dsp, but you get to keep your soul
        ;;fsharp           ; ML stands for Microsoft's Language
-       ;; go               ; the hipster dialect
+       (go +lsp)           ; the hipster dialect
        ;;(haskell +dante)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ;

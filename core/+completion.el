@@ -29,10 +29,3 @@ must be non-read-only, empty, and there must be a rule in
 (setq company-idle-delay 0
       company-minimum-prefix-length 0
       company-lsp-cache-candidates t)
-
-(defun +completion/expand-snippet-or-complete-selection ()
-  (interactive)
-  (if (or (not yas/minor-mode)
-      (null (yas/expand))
-      (company-abort))
-      (company-complete-selection)))
