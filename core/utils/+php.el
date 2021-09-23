@@ -33,5 +33,9 @@
   "Guess the classname of the current file."
   (file-name-base buffer-file-name))
 
+(defun +php/insert-namespace ()
+  (interactive)
+  (insert (concat "namespace " (+php/guess-namespace) ";")))
+
 ;; php lint on save
 ;; sort imports ( sort lines by length )

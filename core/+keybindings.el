@@ -33,6 +33,7 @@
  :n "q" #'evil-quit
  :n "s" #'+default/search-project
  :v "s" #'+utils/sort-list
+ :v (concat +keybindings/prefix "s") #'+utils/sort-lines-by-length
  :nv (concat +keybindings/prefix "d") #'+doom-dashboard/open
  :nv (concat +keybindings/prefix "j") #'json-pretty-print
  :n (concat +keybindings/prefix "b") #'eval-buffer
