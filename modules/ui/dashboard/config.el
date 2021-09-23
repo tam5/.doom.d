@@ -21,14 +21,14 @@
 dashboard. These functions take no arguments and the dashboard buffer is current
 while they run.")
 
-(defvar +doom-dashboard-banner-file "drogon.png"
+(defvar +doom-dashboard-banner-file "viserion.jpg"
   "The path to the image file to be used in on the dashboard. The path is
 relative to `+doom-dashboard-banner-dir'. If nil, always use the ASCII banner.")
 
 (defvar +doom-dashboard-banner-dir (concat (dir!) "/banners/")
   "Where to look for `+doom-dashboard-banner-file'.")
 
-(defvar +doom-dashboard-banner-padding '(0 . 0)
+(defvar +doom-dashboard-banner-padding '(5 . 5)
   "Number of newlines to pad the banner with, above and below, respectively.")
 
 (defvar +doom-dashboard-container-width 80
