@@ -12,7 +12,7 @@
   "Check if a string is present in the projects package.json file. Usefule
 for checking if a dependency is meant to be present."
   (when (projectile-project-p)
-      (let ((config (+project/file-name filename)))
+      (let ((config (+project/file-name file)))
         (when (file-exists-p config)
           (with-temp-buffer
             (insert-file-contents config)
