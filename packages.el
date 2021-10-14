@@ -51,30 +51,49 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 
-(package! vmd-mode)
-(package! vue-mode)
-(package! sws-mode)
-(package! evil-embrace :disable t)
 
-(package! typescript-mode :recipe (:branch "feature/types-in-declarations"))
+;; Tools
+;; ------------------------------
 
-(package! company-box :recipe (:repo "tam5/company-box"))
-(package! doom-snippets :disable t)
-
-(package! prettier-js)
-(package! request)
+;; move text up or down
 (package! move-text)
 
+;; instant markdown preview
+(package! vmd-mode)
 
-(package! my-package
-  :recipe (:local-repo "/Users/arimiller/code/emacs-doom-themes"
+;; auto format on save with prettier-js
+(package! prettier-js)
 
-           ;; By default, the package manager grabs all *.el files at the root
-           ;; of the project and nothing else. To include other files, or
-           ;; accommodate unconventional project structures, specify what :files
-           ;; you want:
-           :files ("*.el" "themes/*.el")
+;; Lang
+;; ------------------------------
 
-           ;; With this you can avoid having to run 'doom sync' every time you
-           ;; change the package.
-           :build (:not compile)))
+;; support for .vue files
+(package! vue-mode)
+
+;; Misc
+;; ------------------------------
+
+;; elisp http client for making external calls
+(package! request)
+
+;; (package! sws-mode)
+; (package! evil-embrace :disable t)
+
+;; (package! typescript-mode :recipe (:branch "feature/types-in-declarations"))
+
+; (package! company-box :recipe (:repo "tam5/company-box"))
+; (package! doom-snippets :disable t)
+
+
+; (package! my-package
+;   :recipe (:local-repo "/Users/arimiller/code/emacs-doom-themes"
+
+;            ;; By default, the package manager grabs all *.el files at the root
+;            ;; of the project and nothing else. To include other files, or
+;            ;; accommodate unconventional project structures, specify what :files
+;            ;; you want:
+;            :files ("*.el" "themes/*.el")
+
+;            ;; With this you can avoid having to run 'doom sync' every time you
+;            ;; change the package.
+;            :build (:not compile)))
