@@ -2,6 +2,7 @@
 
 (require 'request)
 (require 'json)
+(require 's)
 
 (defvar +doom-dashboard-name "*doom*"
   "The name to use for the dashboard buffer.")
