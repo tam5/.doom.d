@@ -31,29 +31,33 @@
  :n "d" #'kill-this-buffer
  :n "w" #'save-buffer
  :n "q" #'evil-quit
- :n "s" #'+default/search-project
+ ;; :n "s" #'+default/search-project
  :v "s" #'+utils/sort-list
  :v (concat +keybindings/prefix "s") #'+utils/sort-lines-by-length
  :nv (concat +keybindings/prefix "d") #'+doom-dashboard/open
  :nv (concat +keybindings/prefix "j") #'json-pretty-print
- :n (concat +keybindings/prefix "b") #'eval-buffer
- :n (concat +keybindings/prefix "s") #'vertico-repeat)
+ :n (concat +keybindings/prefix "b") #'eval-buffer)
+ ;; :n (concat +keybindings/prefix "s") #'vertico-repeat)
 
 ;;
 ;; Non-Prefix based
 ;;
 (map!
  :i "M-`" #'+utils/insert-backtic
- :n "/" #'+default/search-buffer
+ ;; :n "/" #'+default/search-buffer
  :n "-" #'dired-jump
- :n "C-p" #'projectile-find-file
+ :n "C-p" (lambda ()
+            (interactive)
+            (minibuffer-with-setup-hook
+                '(lambda () (insert "~"))
+              (call-interactively #'projectile-find-file)))
  :n "gr" #'lsp-find-references
- :ni "C-y" #'emmet-expand-yas
+ ;; :ni "C-y" #'emmet-expand-yas
  :nvi "C-a" #'evil-numbers/inc-at-pt
  :nvi "C-s" #'evil-numbers/dec-at-pt
  :nv "M-<down>" #'evil-mc-make-cursor-move-next-line
  :nv "M-<up>" #'evil-mc-make-cursor-move-prev-line
- :nv "s-r" #'imenu
+ ;; :nv "s-r" #'imenu
  :nvi "S-s-<return>" #'doom/window-maximize-buffer
  :nv "C-k" #'move-text-up
  :nv "C-j" #'move-text-down)
@@ -62,11 +66,11 @@
 ;; Mode specific
 ;;
 
-(map! (:when (featurep! :completion company)
-       (:after company
-        (:map company-active-map
-              "TAB"     #'+completion/expand-snippet-or-complete-selection
-              [tab]     #'+completion/expand-snippet-or-complete-selection))))
+;; (map! (:when (featurep! :completion company)
+;;        (:after company
+;;         (:map company-active-map
+;;               "TAB"     #'+completion/expand-snippet-or-complete-selection
+;;               [tab]     #'+completion/expand-snippet-or-complete-selection))))
 
 (map! :mode treemacs-mode
       :prefix +keybindings/prefix

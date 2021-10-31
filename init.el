@@ -22,14 +22,15 @@
        company             ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +fuzzy)     ; a search engine for love and life
-       ;; vertico             ; the search engine of the future
+       ;; (ivy +fuzzy)     ; a search engine for love and life
+       vertico             ; the search engine of the future
 
        :ui
        ; better-company
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
-       dashboard         ; a nifty splash screen for Emacs
+       doom-dashboard         ; a nifty splash screen for Emacs
+       ;; dashboard         ; a nifty splash screen for Emacs
        doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;; (emoji +unicode)  ; 🙂
        ;;fill-column       ; a `fill-column' indicator

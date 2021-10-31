@@ -32,8 +32,10 @@
     (save-match-data
       ;; update regexp to extract required data
       (when (re-search-forward "\"access_token\":\"\\(.*?\\)\"" nil t)
-        (setq heimdall-token (match-string 1))
+        (setq heimdall-token (match-string 1)))
+      (when (re-search-forward "\"token\":\"\\(.*?\\)\"" nil t)
+        (setq merlin-token (match-string 1)))
       (when (re-search-forward "\"refresh_token\":\"\\(.*?\\)\"" nil t)
-        (setq heimdall-refresh-token (match-string 1)))))))
+        (setq heimdall-refresh-token (match-string 1))))))
 
 (add-hook 'restclient-response-received-hook #'+liveintent/restclient-hook)
