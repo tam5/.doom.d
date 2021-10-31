@@ -81,7 +81,7 @@
 
 ;; (package! typescript-mode :recipe (:branch "feature/types-in-declarations"))
 
-; (package! company-box :recipe (:repo "tam5/company-box"))
+(package! company-box :recipe (:repo "tam5/company-box"))
 ; (package! doom-snippets :disable t)
 
 

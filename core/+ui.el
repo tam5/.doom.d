@@ -20,17 +20,20 @@
 ;; font string. You generally only need these two:
 ;; test
 
+;;; /----------------------------------------------------------------------------------
+;;; | Theme, Font, etc
+;;; /----------------------------------------------------------------------------------
 (setq doom-font (font-spec :family "Operator Mono 1.2" :size 15)
       doom-variable-pitch-font (font-spec :family "Roboto 1.2" :size 11))
 
 ;; let's keep the window nice and minimal
 (toggle-scroll-bar -1)
+
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+
 (setq ns-use-thin-smoothing t
       ns-use-proxy-icon nil
       frame-title-format nil)
-
-(setq-default right-fringe-width 20)
 
 (defface +ui/dashboard-face
   `((t (:family "Operator Mono")))
@@ -56,10 +59,6 @@
 ;; `nil' to disable it:
 (setq display-line-numbers-type t)
 
-;; don't collapse treemacs directories with only one node
-(after! treemacs
-  (setq treemacs-collapse-dirs 0))
-
 (defun +ui/snap-frame-to-view ()
   "Auto set the frame size to 'fullscreen' but with
 some uniform gutters to add some breathing room."
@@ -74,6 +73,13 @@ some uniform gutters to add some breathing room."
 
 (add-hook 'window-setup-hook #'+ui/snap-frame-to-view)
 
+;;; /----------------------------------------------------------------------------------
+;;; | Childframes
+;;; /----------------------------------------------------------------------------------
+;; remove the scrollbar from company ui
+(after! company-box
+  (setq company-box-scrollbar nil))
+
 (defun +ui/company-childrame-ui-hack (orig-fun &rest args)
   "Set some frame parameters AFTER the frame has already been created.
 This for whatever reason currently gives us the UI effect we want."
@@ -84,6 +90,12 @@ This for whatever reason currently gives us the UI effect we want."
 
 (when (featurep! :completion company +childframe)
   (advice-add 'company-box--make-frame :around #'+ui/company-childrame-ui-hack))
+
+;;; /----------------------------------------------------------------------------------
+;;; | Editor
+;;; /----------------------------------------------------------------------------------
+
+(setq-default right-fringe-width 20)
 
 (defun +ui/highlight-indent-guides--bitmap-dots (width height crep zrep)
   "Defines a dotted guide line, with 2x2 pixel dots, and 3 or 4 dots per row.
@@ -156,15 +168,14 @@ Use WIDTH, HEIGHT, CREP, and ZREP as described in
     :fringe-face 'flycheck-fringe-info
     :error-list-face 'flycheck-error-list-info)
 
-;; (custom-set-faces!
-;;  '((outline-1 outline-2 outline-3 outline-4 outline-5 outline-6)
-;;    :weight normal)
-;;  '((default region)
-;;    :background "red" :weight bold))
 
-;; (custom-set-faces!
-;;  `(outline-1 :foreground ,(doom-color 'red))
-;;  `(outline-2 :background ,(doom-color 'blue)))
+;;; /----------------------------------------------------------------------------------
+;;; | Sidebar
+;;; /----------------------------------------------------------------------------------
+
+;; don't collapse treemacs directories with only one node
+(after! treemacs
+  (setq treemacs-collapse-dirs 0))
 
 (custom-set-faces!
   `((doom-modeline-project-root-dir doom-modeline-project-dir doom-modeline-buffer-path doom-modeline-buffer-file doom-modeline-buffer-modified doom-modeline-info)
