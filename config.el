@@ -31,3 +31,6 @@
 (add-hook 'js2-mode-hook '+js/maybe-enable-prettier)
 
 (setq lsp-intelephense-licence-key "***REMOVED***")
+
+(after! lsp-mode
+  (setq lsp-ui-doc-border nil))

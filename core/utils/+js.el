@@ -5,5 +5,6 @@
 (defun +js/maybe-enable-prettier ()
   "Enable prettier-js only if the project seems to use it."
   (when (or (+project/file-exists-p ".prettierrc")
-            (+project/file-contains "package.json" "prettier"))
+            (+project/file-contains "package.json" "prettier")
+            (+project/file-contains "package.json" "next"))
     (prettier-js-mode 1)))
