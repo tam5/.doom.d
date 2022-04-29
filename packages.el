@@ -60,6 +60,8 @@
 
 ;; instant markdown preview
 (package! vmd-mode)
+(package! livedown)
+
 
 ;; auto format on save with prettier-js
 (package! prettier-js)

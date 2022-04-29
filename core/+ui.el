@@ -23,8 +23,8 @@
 ;;; /----------------------------------------------------------------------------------
 ;;; | Theme, Font, etc
 ;;; /----------------------------------------------------------------------------------
-(setq doom-font (font-spec :family "Operator Mono 1.2" :size 15)
-      doom-variable-pitch-font (font-spec :family "Roboto 1.2" :size 11))
+(setq doom-font (font-spec :family "MonoLisa 1.2" :size 13)
+      doom-variable-pitch-font (font-spec :family "MonoLisa 1.2" :size 10))
 
 ;; let's keep the window nice and minimal
 (toggle-scroll-bar -1)
@@ -46,7 +46,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-city-lights)
+(setq doom-theme 'doom-tokyo-night)
 (setq doom-themes-treemacs-theme "doom-colors")
 
 (defun +ui/apply-theme-overrides ()
@@ -71,7 +71,7 @@ some uniform gutters to add some breathing room."
     (set-frame-size (selected-frame) width height t)
     (set-frame-position (selected-frame) x y)))
 
-(add-hook 'window-setup-hook #'+ui/snap-frame-to-view)
+;; (add-hook 'window-setup-hook #'+ui/snap-frame-to-view)
 
 ;;; /----------------------------------------------------------------------------------
 ;;; | Childframes
