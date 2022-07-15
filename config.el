@@ -22,15 +22,15 @@
 
 ;; These are used for a number of things, particularly for GPG configuration,
 ;; some email clients, file templates and snippets.
-(setq user-full-name "Ari Miller"
-      user-mail-address "arimiller92@gmail.com")
+(setq user-full-name (getenv "MY_FULL_NAME")
+      user-mail-address (getenv "MY_EMAIL_ADDRESS"))
 
 (add-hook 'web-mode-hook '+js/maybe-enable-prettier)
 (add-hook 'typescript-mode-hook '+js/maybe-enable-prettier)
 (add-hook 'vue-mode-hook '+js/maybe-enable-prettier)
 (add-hook 'js2-mode-hook '+js/maybe-enable-prettier)
 
-(setq lsp-intelephense-licence-key "***REMOVED***")
+(setq lsp-intelephense-licence-key (getenv "LICENSE_KEY_INTELEPHENSE"))
 
 (after! lsp-mode
   (setq lsp-ui-doc-border nil))

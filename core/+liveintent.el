@@ -5,18 +5,6 @@
 ;;; |-------------------------------------------------------------------------------------------
 ;;; /
 
-(defconst li-username "***REMOVED***"
-  "My LiveIntent username.")
-
-(defconst li-password "***REMOVED***"
-  "My LiveIntent password.")
-
-(defconst li-client-id "***REMOVED***"
-  "Local LiveIntent client id.")
-
-(defconst li-client-secret "***REMOVED***"
-  "Local LiveIntent client secret.")
-
 (defvar api-token nil
   "The current api token.")
 
