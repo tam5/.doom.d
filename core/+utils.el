@@ -12,11 +12,6 @@
 (load! "utils/+php")
 (load! "utils/+js")
 
-(defun +utils/set-dashboard-font ()
-  "Set the font for the doom dashboard."
-  (setq buffer-face-mode-face '+ui/dashboard-face)
-  (buffer-face-mode))
-
 (defun +utils/insert-backtic ()
   "Insert a backtick character. Since I have backtick mapped as
 a hotkey for iTerm, we sometimes need to programmitcally insert one."
@@ -78,3 +73,11 @@ multiple lines are selected, the lines will sort themselves instead."
                    (lambda (l1 l2)
                      (apply #'< (mapcar (lambda (range) (- (cdr range) (car range)))
                                         (list l1 l2)))))))))
+
+
+
+
+(defun +utils/fixup-restclient ()
+  "See: https://github.com/doomemacs/doomemacs/issues/6073"
+  (interactive)
+  (url-retrieve-synchronously "https://duckduckgo.com"))

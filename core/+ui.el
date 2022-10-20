@@ -1,30 +1,75 @@
 ;;; $DOOMDIR/+ui.el -*- lexical-binding: t; -*-
 ;;;
-;;; /----------------------------------------------------------------------------------
-;;; | User Interface
-;;; |----------------------------------------------------------------------------------
-;;; |
-;;; | Here is where we organize all configuration that is directly related to the ui
-;;; | of the editor. The look and feel of the editor is of the utmost importance,
-;;; | so we dedicate an entire section just for making the editor look pretty.
-;;; /
+;;/----------------------------------------------------------------------------------
+;;; User Interface
+;;;
+;;; Here is where we organize all configuration that is directly related to the ui
+;;; of the editor. The look and feel of the editor is of the utmost importance,
+;;; so we dedicate an entire section just for making the editor look pretty.
+;;/----------------------------------------------------------------------------------
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
-;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; test
+(defvar +ui/theme 'doom-tokyo-night
+  "The color theme.")
 
-;;; /----------------------------------------------------------------------------------
-;;; | Theme, Font, etc
-;;; /----------------------------------------------------------------------------------
-(setq doom-font (font-spec :family "MonoLisa 1.2" :size 13)
-      doom-variable-pitch-font (font-spec :family "MonoLisa 1.2" :size 10))
+(defvar +ui/code-font-family "MonoLisa 1.2"
+  "The font to use for the code editor.")
+
+(defvar +ui/app-font-family "Monaco"
+  "The font to use for the app.")
+
+(defvar +ui/dashboard-font-family +ui/app-font-family
+  "The font to use for the dashboard.")
+
+(defvar +ui/modeline-font-family +ui/app-font-family
+  "The font to use for the dashboard.")
+
+(defvar +ui/code-font-size 13
+  "The font size to use for the code editor.")
+
+(defvar +ui/app-font-size 10
+  "The font size to use for the app.")
+
+(defvar +ui/modeline-height 125
+  "The height in pixels of the modeline.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+(setq doom-theme +ui/theme)
+(setq doom-themes-treemacs-theme "doom-colors")
+
+;; Doom exposes five (optional) variables for controlling fonts in Doom:
+;;
+;; - `doom-font' -- the primary font to use
+;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;;   presentations or streaming.
+;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
+;;
+;; See 'C-h v doom-font' for documentation and more examples of what they
+;; accept. For example:
+;;
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+
+(setq doom-font (font-spec :family +ui/code-font-family :size 13)
+      doom-variable-pitch-font (font-spec :family +ui/app-font-family :size 10))
+
+;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; refresh your font settings. If Emacs still can't find your font, it likely
+;; wasn't installed correctly. Font issues are rarely Doom issues!
+;;
 
 ;; let's keep the window nice and minimal
 (toggle-scroll-bar -1)
@@ -36,18 +81,17 @@
       frame-title-format nil)
 
 (defface +ui/dashboard-face
-  `((t (:family "Operator Mono")))
+  `((t (:family +ui/dashboard-font-family)))
   "Face to use for the dashboard."
   :group 'faces)
 
 ;; set a different font for the dashboard
-(add-hook '+doom-dashboard-mode-hook #'+utils/set-dashboard-font)
+(add-hook '+doom-dashboard-mode-hook #'+ui/set-dashboard-font)
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-tokyo-night)
-(setq doom-themes-treemacs-theme "doom-colors")
+(defun +ui/set-dashboard-font ()
+  "Set the font for the doom dashboard."
+  (setq buffer-face-mode-face '+ui/dashboard-face)
+  (buffer-face-mode))
 
 (defun +ui/apply-theme-overrides ()
   "Add any theme overrides after the theme is loaded."
@@ -181,7 +225,7 @@ Use WIDTH, HEIGHT, CREP, and ZREP as described in
   `((doom-modeline-project-root-dir doom-modeline-project-dir doom-modeline-buffer-path doom-modeline-buffer-file doom-modeline-buffer-modified doom-modeline-info)
     :foreground ,(doom-color 'fg-alt) :weight normal)
    '((mode-line mode-line-inactive)
-     :family "Roboto" :height 125 :weight normal)
+     :family +ui/modeline-font-family :height 125 :weight normal)
 
    `(treemacs-file-face :foreground ,(doom-color 'fg-alt))
    `(treemacs-directory-face :foreground ,(doom-color 'fg-alt))
