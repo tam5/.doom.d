@@ -52,6 +52,7 @@
                 '(lambda () (insert "~"))
               (call-interactively #'projectile-find-file)))
  :n "gr" #'lsp-find-references
+ :n "gi" #'lsp-goto-implementation
  ;; :ni "C-y" #'emmet-expand-yas
  :nvi "C-a" #'evil-numbers/inc-at-pt
  :nvi "C-s" #'evil-numbers/dec-at-pt
