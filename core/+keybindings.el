@@ -12,6 +12,9 @@
 (defconst +keybindings/prefix ","
   "Define the prefix key. This is the equivalent of the <leader> key in vim.")
 
+(map! "C-s-p" #'execute-extended-command)
+
+;; "C-s-p" #'execute-extended-command
 ;;
 ;; Prefix based
 ;;
