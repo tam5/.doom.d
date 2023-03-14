@@ -1,6 +1,13 @@
 ;;; $DOOMDIR/+keybinds.el -*- lexical-binding: t; -*-
 
-(defconst +keybinds-leader-key ","
+;; ╔════════════════════════════════════════════════════════════════════════════╗
+;; ║                                  Keybinds                                  ║
+;; ╚════════════════════════════════════════════════════════════════════════════╝
+;;
+;; Doom has a great keybinding system, but there's certain habits i've picked up
+;; over the years that i just can't shake
+
+(defconst my/leader-key ","
   "Define the leader/prefix key, aka <Leader> in vim. This is
 separate from the doom-leader-key, so we can get even quicker access
 to our most frequently used keybinds.")
@@ -12,7 +19,7 @@ to our most frequently used keybinds.")
 
  :n "-" #'dired-jump
 
- :prefix +keybinds-leader-key
+ :prefix my/leader-key
  :n "w" #'basic-save-buffer
  :n "q" #'evil-quit
 

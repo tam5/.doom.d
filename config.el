@@ -1,13 +1,19 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+;; ╔════════════════════════════════════════════════════════════════════════════╗
+;; ║                                                                            ║
+;; ║                                Doom Config                                 ║
+;; ║                                                                            ║
+;; ╚════════════════════════════════════════════════════════════════════════════╝
 
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Ari Miller"
-      user-mail-address "arimiller92@gmail.com")
+(setq user-full-name (getenv "MY_FULL_NAME")
+      user-mail-address (getenv "MY_EMAIL_ADDRESS")
+      lsp-intelephense-licence-key (getenv "LICENSE_KEY_INTELEPHENSE"))
 
 (load! "+keybinds")
 (load! "+ui")
+(load! "+theme")
+
+(after! company
+  (setq company-idle-delay 0
+        company-minimum-prefix-length 0))
