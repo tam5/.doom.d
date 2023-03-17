@@ -22,6 +22,16 @@ to our most frequently used keybinds.")
  :prefix my/leader-key
  :n "w" #'basic-save-buffer
  :n "q" #'evil-quit
+ :n "d" #'kill-current-buffer
 
  :n "v" #'evil-window-vsplit
- :n "h" #'evil-window-split)
+ :n "h" #'evil-window-split
+
+ :n "1" #'+treemacs/toggle
+
+ :n "ev" (lambda () (interactive) (find-file (concat doom-user-dir "config.el")))
+ :n "ek" (lambda () (interactive) (find-file (concat doom-user-dir "+keybinds.el"))))
+
+(map!
+ "M-`" nil
+ :i "M-`" (lambda () (interactive) (insert "`")))
