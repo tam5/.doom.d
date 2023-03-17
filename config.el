@@ -21,6 +21,65 @@
   (setq company-idle-delay 0
         company-minimum-prefix-length 0))
 
+;; (defun my-advice-key-description (orig-fun &rest args)
+;;   "Advice function that modifies the result of `key-description'.
+;; Replaces any occurrence of \"SPC\" in the output with \"space\"."
+;;   (let ((desc (apply orig-fun args)))
+;;     (replace-regexp-in-string "SPC" "space" desc)))
+
+;; (advice-add 'key-description :around #'my-advice-key-description)
+
+;; (key-description (kbd "SPC x"))  ; "8-x C-f"
+
+
+;; (setq svg-tag-tags
+;;       '((":TODO:" . ((svg-tag-make "TODO" :face 'org-tag
+;;                                    :radius 0 :inverse t :margin 0)))
+;;         (":NOTE:" . ((svg-tag-make "NOTE" :face 'font-lock-comment-face
+;;                                    :inverse nil :margin 0 :radius 0)))
+;;         ("\([0-9a-zA-Z]\)" . ((lambda (tag)
+;;                                 (svg-tag-make tag :beg 1 :end -1 :radius 12))))
+;;         ("\([0-9a-zA-Z][0-9a-zA-Z]\)" . ((lambda (tag)
+;;                                            (svg-tag-make tag :beg 1 :end -1 :radius 8))))
+;;         ("|[0-9a-zA-Z- ]+?|" . ((lambda (tag)
+;;                                   (svg-tag-make tag :face 'font-lock-comment-face
+;;                                                 :margin 0 :beg 1 :end -1))))))
+
+
+
+;; (require 'svg-lib)
+;; (require 'svg-tag-mode)
+
+;; (setq svg-tag-tags
+;;       '(("\\bC-\\([A-Za-z.,~/\\]+\\)" .
+;;          ((lambda (tag) (svg-lib-tag tag nil
+;;                                      :radius 4
+;;                                      :padding 1
+;;                                      :margin 1
+;;                                      :stroke 0
+;;                                      :background "#673AB7"
+;;                                      :foreground "white"
+;;                                      :crop-right t))))
+;;         (":[A-Z]+\\(\|[a-zA-Z#0-9]+:\\)" .
+;;          ((lambda (tag) (svg-tag-make tag :beg 1
+;;                                       :end -1
+;;                                       :margin 0
+;;                                       :crop-left t))))))
+
+;; (defun my-start-svg-thing ()
+;;   ""
+;;   (svg-tag-mode))
+
+;; (add-hook 'minibuffer-with-setup-hook #'my-start-svg-thing)
+
+;; "\\bC-\\([A-Za-z.,~/\\]+\\)" -> can match the C-
+
+;; (C-\) -> [^ ~]
+;; (SPC f h e) [space] [f] [h] [e]
+;; (SPC f e) [space] [f] [e]
+;; (M-x) [⌥ x]
+;; (C-x C-e) [⌥ x] [control e]
+
 ;; (set-face-background 'marginalia-key nil)
 
 ;; (defun marginalia-annotate-binding (cand)
@@ -51,41 +110,41 @@
 ;; )
 
 ;; (cookies)
-(defface aritest-face-1
-  '((t (:inherit marginalia-key :background "#cccccc" :foreground "#000000")))
-  "documents"
-  :group 'basic-faces)
+; (defface aritest-face-1
+;   '((t (:inherit marginalia-key :background "#cccccc" :foreground "#000000")))
+;   "documents"
+;   :group 'basic-faces)
 
-(defface aritest-face-2
-  '((t (:inherit marginalia-key :background "#cccccc" :foreground "#000000")))
-  "documents"
-  :group 'basic-faces)
+; (defface aritest-face-2
+;   '((t (:inherit marginalia-key :background "#cccccc" :foreground "#000000")))
+;   "documents"
+;   :group 'basic-faces)
 
-(defface aritest-face-3
-  '((t (:inherit marginalia-key :background "#cccccc" :foreground "#000000")))
-  "documents"
-  :group 'basic-faces)
+; (defface aritest-face-3
+;   '((t (:inherit marginalia-key :background "#cccccc" :foreground "#000000")))
+;   "documents"
+;   :group 'basic-faces)
 
-(defun aritest-insert-bbb ()
-  (interactive)
-  (insert (concat
-           (propertize " " 'face 'aritest-face-3)
-           (propertize "⌘" 'face 'aritest-face-1)
-           (propertize " " 'face 'aritest-face-3)
-           (propertize "F" 'face 'aritest-face-2)
-           (propertize " " 'face 'aritest-face-3)
-           "")))
+; (defun aritest-insert-bbb ()
+;   (interactive)
+;   (insert (concat
+;            (propertize " " 'face 'aritest-face-3)
+;            (propertize "⌘" 'face 'aritest-face-1)
+;            (propertize " " 'face 'aritest-face-3)
+;            (propertize "F" 'face 'aritest-face-2)
+;            (propertize " " 'face 'aritest-face-3)
+;            "")))
 
-;; (set-face-attribute
-;;  'aritest-face-1 nil
-;;  :box '(:line-width (10 . 5) :color "#00ff00" :style 'pressed-button))
+; ;; (set-face-attribute
+; ;;  'aritest-face-1 nil
+; ;;  :box '(:line-width (10 . 5) :color "#00ff00" :style 'pressed-button))
 
-;; (require 'svg-tag-mode)
+; ;; (require 'svg-tag-mode)
 
-;; :TODO:
+; ;; :TODO:
 
-(dotimes (i 10)
-  (insert-image (svg-lib-tag "TODO" nil :stroke 2 :radius i)))
+; (dotimes (i 10)
+;   (insert-image (svg-lib-tag "TODO" nil :stroke 2 :radius i)))
 
 
 ;; (setq svg-tag-tags
