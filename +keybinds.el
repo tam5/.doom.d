@@ -33,5 +33,10 @@ to our most frequently used keybinds.")
  :n "ek" (lambda () (interactive) (find-file (concat doom-user-dir "+keybinds.el"))))
 
 (map!
+ :prefix my/leader-key
+ :n "a" #'lsp-execute-code-action)
+
+(map!
+ ;; because i use ` as my iterm hotkey
  "M-`" nil
  :i "M-`" (lambda () (interactive) (insert "`")))
