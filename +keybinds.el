@@ -30,7 +30,8 @@ to our most frequently used keybinds.")
  :n "1" #'+treemacs/toggle
 
  :n "ev" (lambda () (interactive) (find-file (concat doom-user-dir "config.el")))
- :n "ek" (lambda () (interactive) (find-file (concat doom-user-dir "+keybinds.el"))))
+ :n "ek" (lambda () (interactive) (find-file (concat doom-user-dir "+keybinds.el")))
+ :n "eu" (lambda () (interactive) (find-file (concat doom-user-dir "+ui.el"))))
 
 (map!
  :prefix my/leader-key
