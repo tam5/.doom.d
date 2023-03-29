@@ -16,14 +16,12 @@
 ;;      'defaults write org.gnu.Emacs HideDocumentIcon YES' from the
 ;;      command line.
 
-(load! "lisp/bitmaps")
-(load! "lisp/keybinding-icons")
-
 (add-to-list 'default-frame-alist '(undecorated-round . t))
 
 (setq
  ;; The default font to use
- doom-font (font-spec :family "MesloLGL Nerd Font" :size 15 :weight 'normal)
+  doom-font (font-spec :family "MesloLGL Nerd Font" :size 15 :weight 'normal)
+ ; doom-font (font-spec :family "Menlo" :size 14 :weight 'normal)
 
  ;; The font to use for other things, like the sidebar
  doom-variable-pitch-font (font-spec :family "Monaco" :size 13)
@@ -34,6 +32,8 @@
 ;; ┌────────────────────────────────────────────────────────────────────────────┐
 ;; │                               Indent Guides                                │
 ;; └────────────────────────────────────────────────────────────────────────────┘
+
+(load! "lisp/bitmaps")
 
 (after! highlight-indent-guides
   (setq highlight-indent-guides-method 'bitmap
@@ -85,61 +85,20 @@
 
 ;; make sure to cache the svgs
 
-;; (use-package! svg-lib
-        ;; :config ())
-
-;;
-
-;; (defcustom my/key-icon-alist
-;;   '(("SPC" . "space")
-;;     ("s" . "⌘")
-;;     ("C" . "control"))
-;;   "My list"
-;;   :type '(alist :key-type string :value-type string)
-;;   :group 'aritest-group)
-
-(defvar my/keybinding-icon-scale-factor 0.7)
-(advice-add 'marginalia-annotate-binding :around #'my/iconify-keybinding-hints-a)
-(advice-add 'marginalia-annotate-command :override #'my/marginalia-annotate-command)
-
-;; (after! svg-lib
-;;   ;; sometimes this is needed, not sure why
-;;   (setq svg-lib-style-default (svg-lib-style-compute-default)))
 
 
-;; (key-description (kbd "SPC x"))  ; "8-x C-f"
+;; (defun my-variable-watcher (symbol newval operation where)
+;;   (message "Variable %s is now %S (operation: %s, buffer: %s)"
+;;            symbol newval operation where))
 
-;; "\\bC-\\([A-Za-z.,~/\\]+\\)" -> can match the C-
+;; (add-variable-watcher 'svg-lib-style-default #'my-variable-watcher)
 
-;; (C-\) -> [^ ~]
-;; (SPC f h e) [space] [f] [h] [e]
-;; (SPC f e) [space] [f] [e]
-;; (M-x) [⌥ x]
-;; (C-x C-e) [⌥ x] [control e]
+(use-package! svg-lib
+  :after marginalia
+  :init (add-hook 'after-setting-font-hook (lambda () (setq svg-lib-style-default (svg-lib-style-compute-default))))
+  :config (load! "lisp/keybinding-icons") ;; when it becomes its own package then we can remove this
+  (advice-add 'marginalia-annotate-binding :around #'keybinding-icons-iconify-binding-a)
+  (advice-add 'marginalia-annotate-command :override #'keybinding-icons-marginalia-annotate-command-a))
 
-;; ⌘ is the Command or Cmd () key
-;; ⌃ is the Control or Ctrl key
-;; ⌥ is the Option or Alt key
-;; ⇧ is the Shift key
-;; ⇪ is the Caps Lock key
-;; fn is the Function key
-;; ⌘ is command (or Cmd. Like the Control key on Windows/PC)
-;; ⌥ is option (like Alt on Windows/PC)
-;; ⌃ is control (Control-click=Right-click)
-;; ⇧ is shift
-;; ⇪ is caps lock
-;; ← is left arrow
-;; → is right arrow
-;; ↑ is up arrow
-;; ↓ is down arrow
-;; ⇥ is tab
-;; ⇤ is backtab
-;; ↩ is return (or Enter)
-;; ⌫ is delete (like Backspace on Windows/PC)
-;; ⌦ is forward delete (fn+Delete. Also called Forward Delete)
-;; ⇞ is page up (fn+Up Arrow on compact keyboards)
-;; ⇟ is page down (fn+Down Arrow on compact keyboards)
-;; ↖ is home (fn+Left Arrow on compact keyboards)
-;; ↘ is end (fn+Right Arrow on compact keyboards)
-;; ⎋ is escape (or esc)
-;; ⏏ is eject
+;; (add-hook 'doom-load-theme-hook #'my/refresh-keybinding-icons)
+
