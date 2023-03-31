@@ -2,7 +2,6 @@
 
 ;; TODO describe binding?
 ;;
-
 ;; NOTE
 ;; replace-regepx-in-string will run the replacement function for each match
 ;; \\1 \\2 \\3 etc. are the matched groups in each match
@@ -19,8 +18,6 @@
 ;; (insert (replace-regexp-in-string "\\(\\(\\w+\\) ?\\(\\w+\\)? ?\\(\\w+\\)?\\)" "1-\\1 2-\\2 3-\\3 4-\\4 5-\\5 6-\\6" "abc def ghi" ))
 ;; 1-abc def ghi 2-abc 3-def 4-ghi 5- 6-
 
-(require 'cl-lib)
-
 (defface keybinding-icons-keybinding-face
   '((t (:inherit font-lock-keyword-face)))
   "Face for keybinding icons.")
@@ -28,31 +25,15 @@
 (defvar keybinding-icons-prettify nil
   "If non-nil, prettify keybindings.")
 
-;; (defun keybinding-icons--shift-and-lowercase-replacement (match-data)
-;;   (let ((matched (match-string 0 match-data)))
-;;     (concat "shift-" (downcase matched))))
-
-(defun keybinding-icons--shift-and-lowercase-replacement (match)
-  (message "match %s" match)
-  (format "test %s-" match))
-
-;; (dotimes (i (length keybinding-icons-prettifier-alist))
-;;   (let ((key (car (nth i keybinding-icons-prettifier-alist)))
-;;         (replacement (cdr (nth i keybinding-icons-prettifier-alist))))
-;;     (message "key: %s, replacement: %s, type: %s" key replacement (type-of replacement))))
-
-
-;; (functionp (cdr (nth 18 keybinding-icons-prettifier-alist)))
-
 (defvar keybinding-icons-prettifier-alist
   '(("\\<SPC\\>" . "space")
-    ("\\bC-\\([^ ]+\\)" . "⌃-\\1")
-    ("\\bs-\\([^ ]+\\)" . "⌘-\\1")
-    ("\\bM-\\([^ ]+\\)" . "⌥-\\1")
     ("\\<TAB\\>" . "⇥")
     ("\\<RET\\>" . "↩")
     ("\\<DEL\\>" . "⌫")
     ("\\<ESC\\>" . "⎋")
+    ("\\bC-\\([^ ]+\\)" . "⌃-\\1")
+    ("\\bs-\\([^ ]+\\)" . "⌘-\\1")
+    ("\\bM-\\([^ ]+\\)" . "⌥-\\1")
     ("<\\<delete\\>>" . "⌫")
     ("<\\<backspace\\>>" . "⌫")
     ("<\\<up\\>>" . "↑")
@@ -62,14 +43,10 @@
     ("<\\<prior\\>>" . "⇟")
     ("<\\<next\\>>" . "⇞")
     ("<\\<escape\\>>" . "⎋")
+    ("<\\<\\([^>]+\\)\\>>" . "\\1")
+    ("\\([[:upper:]]\\)" . (lambda (match) (concat "⇧-" (downcase match)))))
+  "Alist of regexps to replace in keybindings. the order matters")
 
-    ("\\([[:upper:]]\\)" . (lambda (match) (message "match %s, type %s" match (type-of match)) (concat "shift")))
-
-    ("<\\<\\([^>]+\\)\\>>" . "\\1"))
-  "Alist of regexps to replace in keybindings.")
-
-;; (defvar my/keybinding-icon-svg-cache (make-hash-table :test 'equal))
-;;
 (defvar keybinding-icons--assumed-max-chords 5)
 
 (defun keybinding-icons--prettify-keybinding (keybinding)
@@ -79,119 +56,25 @@ using `keybinding-icons-prettifier-alist`."
         (case-fold-search nil))
     (dolist (mapping keybinding-icons-prettifier-alist)
       (let* ((regex (car mapping))
-            (replacement (if (functionp (cdr mapping))
-                             (cdr mapping)
-                           (lambda (&rest _) (cdr mapping)))))
-        (setq result
-              (replace-regexp-in-string
-               regex
-               (funcall replacement
-                        (save-match-data
-                          (when (and (string-match regex result) (match-string 1 result))
-                            (message "-----------------------------")
-                            (message "1 binding %s matched %s" result (match-string 1 result))
-                            (message "2 binding %s matched %s" result (match-string 1 result))
-                            (match-string 1 result))
-                          ))
-               result
-               t))))
+             (replacement (if (functionp (cdr mapping)) (cdr mapping)
+                            (lambda (&rest _) (cdr mapping))))
+             (start-index 0))
+        (save-match-data
+          (while (string-match regex result start-index)
+            (save-match-data
+              (setq result
+                    (replace-regexp-in-string
+                     regex
+                     (funcall replacement (match-string 1 result))
+                     result
+                     t))
+              (setq start-index (min (match-end 0)(length result))))
+            ))))
     result))
-
-(let ((case-fold-search nil)
-      (str "C-x Y D"))
-  (when (string-match "\\([[:upper:]]\\)" str)
-    (message "Matched: %s" (match-string 1 str))))
-
-
-;; (my/string-match-all "\\([[:upper:]]\\)" "C-x Y")
-
-(defun my/string-match-all (regexp string)
-  (let ((start 0)
-        matches)
-    (save-match-data
-      (while (string-match regexp string start)
-        (let ((match (match-string 0 string)))
-          (push match matches))
-        (setq start (match-end 0))))
-    (nreverse matches)))
-
-
-;; (if (functionp replacement)
-;;     (funcall replacement (match-string 1))
-;;     ;; (lambda (_)
-;;     ;;   (let ((all-matched-groups (cl-loop for i from 0 to (1- (/ (length (match-data)) 2))
-;;     ;;                                   collect (match-string i result))))
-;;     ;;     (funcall replacement matches result)))
-;; replacement)
-;; result t t)))))
-;; result))
-
-;; (key-description (kbd "C-c C-S-o"))
-
-
-;; (match-data)
-
-;; (string-match-p "\\b\\([[:upper:]]\\)" "C-x C-G")
-;; ;; (match-data)
-
-;; (replace-regexp-in-string "")
-
-;; (s-match-strings-all "\\b\\([[:upper:]]\\)" "C-x C-G")
-
-(defun example-function (str)
-  (save-match-data
-    (when (string-match "\\([[:upper:]]\\)" str)
-      (message "Matched data: %s" (match-data))
-      (message "Matched 0: %s" (match-string 0 str))
-      (message "Matched 1: %s" (match-string 1 str))
-      (message "Matched 2: %s" (match-string 2 str))
-      (message "Matched 3: %s" (match-string 3 str))
-      (message "Matched 4: %s" (match-string 4 str))
-      (message "Matched 5: %s" (match-string 5 str))
-      )))
-
-;; (example-function "C-x J-G")
-
-;; (defun keybinding-icons--prettify-keybinding (keybinding)
-;;   "Map parts of KEYBINDING to their corresponding strings
-;; using `keybinding-icons-prettifier-alist`."
-;;   (let ((result keybinding)
-;;         (case-fold-search nil))
-;;     (dolist (mapping keybinding-icons-prettifier-alist)
-;;       (let ((regexp (car mapping))
-;;             (replacement (cdr mapping)))
-;;         (setq result (replace-regexp-in-string
-;;                       regexp
-;;                       (if (stringp replacement)
-;;                           replacement
-;;                         (lambda (_)
-;;                           (let ((all-matched-groups (loop for i from 0 to (1- (/ (length (match-data)) 2))
-;;                                                           collect (match-string i result))))
-;;                             (funcall replacement all-matched-groups))))
-;;                       result t t))))
-;;     result)
-
-;;   (when (string-match-p regexp keybinding)
-;;     (setq result (replace-regexp-in-string regexp replacement) result t t)))
-;; result))))
-
-;; (keybinding-icons--prettify-keybinding "C-x")
 
 ;; font-size .085
 ;; margin .4
 ;; padding .6
-
-;;;;;;;;;;;;;;;
-;; ;; (replace-regexp-in-string REGEXP REP STRING) ;; FIXEDCASE LITERAL SUBEXP START)
-;; (replace-regexp-in-string "\\b[A-Z]\\b" (funcall (lambda (matches) (message "matches: %s" matches) (format "jh"))
-;;                                                  (message "match data %s" (s-match-strings-all))
-
-;;                                                  ) "G")
-
-;; (let ((case-fold-search nil))
-;;   (s-match "\\bs-\\([^ ]+\\)" "s-j K"))
-
-;;;;;;;;;;;;;;;
 
 ;; so the font size + the margin + the padding
 ;; has to equal a whole number which is the size of the chars basically, unless we hack
@@ -315,124 +198,9 @@ Meant for debugging only."
            ))))
    nil (format "~/Desktop/keybinding-icons-tests/%s.log" keybinding)))
 
-;; (keybinding-icons--debug-svgs "C-c C-c")
 
-;; Open name: -*-MesloLGL Nerd Font-regular-normal-normal-*-14-*-*-*-p-0-iso10646-1
-;; Full name: MesloLGL Nerd Font:pixelsize=14:weight=regular:slant=normal:width=normal:spacing=0:scalable=true
-;; Size: 14
-;; Height: 22 ---- the text char height is 16 pixels
-;; Baseline offset: 0
-;; Relative compose: 0
-;; Default ascent: 0
-;; Max width: 8
-;; Ascent: 16
-;; Descent: 6
-;; Space width: 8
-;; Average width: 8
-;; Filename: nil
-;; Capability: nil
-
-;; Open name: -*-MesloLGL Nerd Font-regular-normal-normal-*-19-*-*-*-p-0-iso10646-1
-;; Full name: MesloLGL Nerd Font:pixelsize=19:weight=regular:slant=normal:width=normal:spacing=0:scalable=true
-;; Size: 19
-;; Height: 29 ---- the text char height is 22 pixels
-;; Baseline offset: 0
-;; Relative compose: 0
-;; Default ascent: 0
-;; Max width: 11
-;; Ascent: 21
-;; Descent: 8
-;; Space width: 11
-;; Average width: 11
-;; Filename: nil
-;; Capability: nil
-
-
-;; The returned value is a vector of 14 elements:
-;;   [ OPENED-NAME FULL-NAME SIZE HEIGHT BASELINE-OFFSET RELATIVE-COMPOSE
-;;     DEFAULT-ASCENT MAX-WIDTH ASCENT DESCENT SPACE-WIDTH AVERAGE-WIDTH
-;;     FILENAME CAPABILITY ]
-
-;; foreground: unspecified
-;; background: #2a2e36
-;; crop-left: nil
-;; crop-right: nil
-;; alignment: 0.5
-;; stroke: 0
-;; height: 1
-;; radius: 3
-;; margin: 0
-;; padding: 0
-;; font-size-o: 19.0
-;; font-family: MesloLGL Nerd Font
-;; font-weight: 700
-;; txt-char-width: 11
-;; txt-char-height: 22
-;; font-info: [-*-MesloLGL Nerd Font-regular-normal-normal-*-19-*-*-*-p-0-iso10646-1 MesloLGL Nerd Font:pixelsize=19:weight=regular:slant=normal:width=normal:spacing=0:scalable=true 19 29 0 0 0 11 21 8 11 11 nil nil]
-;; font-size: 19
-;; ascent: 21
-;; tag-char-width: 11
-;; tag-width: 33
-;; tag-height: 22
-;; svg-width: 33
-;; svg-height: 22
-;; svg-ascent: center
-;; tag-x: 0.0
-;; text-x: 0.0
-;; text-y: 21
-;; tag-x: 0.0
-;; tag-width: 33
-;; text-x: 0.0
-;; tag-width: 33
-;; text-x: 0.0
-
-
-
-;; 14.2 * 2x = 17
-;; 14.2 * x = 17
-;; 17/14.2 = 1.2 or 0.6
-;; 17 * .94 = 16
-;; 15.96x = 15
-;; 15/15.96 = 0.94
-;; .94 * 18.48 = 17.3
-;; foreground: unspecified
-;; background: #2a2e36
-;; crop-left: nil
-;; crop-right: nil
-;; alignment: 0.5
-;; stroke: 0
-;; height: 0.84
-;; radius: 3
-;; margin: 0.4
-;; padding: 0.6
-;; font-size-o: 15.96
-;; font-size: 15
-;; font-family: MesloLGL Nerd Font
-;; font-weight: 700
-;; txt-char-width: 11
-;; txt-char-height: 22 pixels
-;; font-info: [-*-MesloLGL Nerd Font-regular-normal-normal-*-15-*-*-*-p-0-iso10646-1 MesloLGL Nerd Font:pixelsize=15:weight=regular:slant=normal:width=normal:spacing=0:scalable=true 15 23 0 0 0 9 17 6 9 9 nil nil]
-;; font-size: 15
-;; ascent: 17
-;; tag-char-width: 9
-;; tag-width: 17.6
-;; tag-height: 18.48
-
-;; svg-width: 22.0
-;; svg-height: 18.48 pixels
-;;
-;; svg-ascent: center
-;; tag-x: 2.1999999999999993
-;; text-x: 6.5
-;; text-y: 17
-;; tag-x: 2.1999999999999993
-;; tag-width: 17.6
-;; text-x: 6.5
-;; tag-width: 17.6
-;; text-x: 6.5
-
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun keybinding-icons-toggle-prettify ()
   "Toggle `keybinding-icons-prettify'."
   (interactive)
@@ -441,11 +209,14 @@ Meant for debugging only."
 (defun keybinding-icons--make-keybinding-icon-string (char-array)
   ""
   (let* ((orig-key-description (key-description char-array))
-         (descired-description (if keybinding-icons-prettify
+         (desired-description (if keybinding-icons-prettify
                                    (keybinding-icons--prettify-keybinding orig-key-description)
                                  orig-key-description))
-         (binding-parts (delq "" (split-string descired-description " ")))
+         (binding-parts (delq "" (split-string desired-description " ")))
          (filler-width (- keybinding-icons--assumed-max-chords (length binding-parts))))
+    ;; (message "orig-key-description: %s" orig-key-description)
+    ;; (message "desired-description: %s" desired-description)
+    ;; (message "binding-parts: %s" binding-parts)
     (concat (mapconcat (lambda (part)
                          (propertize part 'display (keybinding-icons--get-or-create-svg part)))
                        binding-parts)
@@ -456,58 +227,7 @@ Meant for debugging only."
   (let* ((cand (car args))
          (sym (intern-soft cand))
          (char-array (and (commandp sym) (where-is-internal sym nil 'first-only))))
-    ;; (message "candidate: %s" cand)
-    ;; (message "sym: %s" sym)
-    ;; (message "thing: %s" (where-is-internal sym nil 'first-only))
-    ;; (message "keybinding: %s" char-array)
     (keybinding-icons--make-keybinding-icon-string char-array)))
-
-;; (char-to-string 32)
-;; (char-to-string 9)
-;; (char-to-string 82)
-
-;; (key-binding (vector 32 9 82))
-
-
-
-;; (map! "C-S-y" #'aritest) ;; 33554457
-;; (map! "C-Y" #'aritest)
-
-;; (defun aritest-3 () (interactive))
-
-;; (map! "C-x Z Y" #'aritest-3)
-
-;; (vector "C-S-y")
-;; (where-is-internal 'aritest)
-
-;; (kbd "C-S-y") ;; 33554457
-;; (key-description (vector 33554457)) ;; C-S-y
-
-;; (defun key-description-to-vector (key-description)
-;;   (let* ((case-fold-search nil)
-;;          (key-description (replace-regexp-in-string
-;;                            "\\bC-\\([[:upper:]]\\)"
-;;                            (lambda (_)
-;;                              (format "C-%c" (+ 96 (string-to-char (match-string 1)))))
-;;                            key-description)))
-;;     (kbd key-description)))
-
-
-;; (kbd "C-Y") ;; 
-;; (kbd "C-x Y") ;; Y
-;; (key-description "") ;; C-y
-;; (key-description-to-vector "C-x Y") ;; 24 67109019
-
-;; (key-description (vector  24 67109019)) ;; C-x C-
-
-
-;; (kbd "SPC g G") ;; gG
-;; (key-description (kbd "SPC g G")) ;; SPC g G
-
-;; (where-is-internal 'magit-status-here) ;; 32 103 71
-;; (key-description (vector 32 103 71)) ;; SPC g G
-;; (kbd "SPC g G") ;; gG
-;; (key-description (kbd "SPC g G")) ;; SPC g G
 
 (defun keybinding-icons-marginalia-annotate-command-a (cand)
   ""
