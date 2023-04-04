@@ -94,15 +94,15 @@ using `keybinding-icons-prettifier-alist`."
   (svg-lib-tag (replace-regexp-in-string "-" " " keybinding) nil
                :background (doom-lighten (face-attribute 'default :background) 0.01)
                :foreground (face-attribute 'keybinding-icons-keybinding-face :foreground)
-               :height 1
+               ;; :height 1
                ;; :height 0.84
-               :font-size 15
+               ;; :font-size 15
                ;; font size gets rounded anyway
                ;; ascent is used from the font info (svg-ascent is center)
                ;; height i guess should be something that gives a whole number to the font size?
 
-               :font-weight 'bold
-               :font-family "MesloLGL Nerd Font"
+               ;; :font-weight 'bold
+               ;; :font-family "Arial"
 
                ;; if these don't add up to 1 then alignment issues happen
                :margin .4 :padding .6
@@ -234,6 +234,7 @@ Meant for debugging only."
   (when-let (sym (intern-soft cand))
     (marginalia--fields
      ((marginalia-annotate-binding cand) :truncate 0.165 :face 'keybinding-icons-keybinding-face)
+     ;; ((format "\n"))
      ((marginalia--function-doc sym) :truncate 1.0 :face 'marginalia-documentation))))
 
 ;; left TODO

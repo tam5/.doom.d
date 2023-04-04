@@ -4,7 +4,10 @@
 ;; ║                                   Theme                                    ║
 ;; ╚════════════════════════════════════════════════════════════════════════════╝
 
-(setq doom-theme 'doom-one
+;; (setq doom-theme 'doom-github-dark-dimmed)
+
+;; (setq doom-theme 'doom-one
+(setq doom-theme 'doom-github-dark-dimmed
       doom-themes-treemacs-theme "doom-colors")
 
 (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
@@ -53,3 +56,13 @@
    '(all-the-icons-silver :foreground "#40535B")
    '(all-the-icons-lsilver :foreground "#ffffff")
    '(all-the-icons-dsilver :foreground "#40535B"))
+
+
+(defun +my/eval-and-load-theme-buffer ()
+  "Evaluate the current buffer and load the theme."
+  (interactive)
+  (eval-buffer)
+  (doom/reload-theme))
+
+(map!
+ :leader :n "r t" #'+my/eval-and-load-theme-buffer)
