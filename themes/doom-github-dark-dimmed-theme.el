@@ -59,6 +59,12 @@ Can be an integer to determine the exact padding."
    (bg-alt     '("#1f2428" "#00212B" "white"       ))
    (fg-alt     '("#657b83" "#657b83" "white"       ))
 
+   ;; dark bg: #1f2428
+   ;; editor bg: #24292e
+   ;; editor hl line: #2B3036
+   ;; indent guide? #2E363D
+   ;;
+   ;; (doom-lighten )
    ;; These should represent a spectrum from bg to fg, where base0 is a starker
    ;; bg and base8 is a starker fg. For example, if bg is light grey and fg is
    ;; dark grey, base0 should be white and base8 should be black.
@@ -133,7 +139,7 @@ Can be an integer to determine the exact padding."
   ;;  (modeline-bg-inactive-alt (doom-darken bg 0.1)))
 
 
-  ;; ;;;; Base theme face overrides
+  ;;;; Base theme face overrides
   ;; (((font-lock-comment-face &override)
   ;;   :background (if doom-github-dark-dimmed-brighter-comments (doom-lighten bg 0.05)))
   ;;  ((font-lock-keyword-face &override) :weight 'bold)
@@ -146,7 +152,7 @@ Can be an integer to determine the exact padding."
   ;;  (mode-line-inactive
   ;;   :background modeline-bg-inactive :foreground modeline-fg-alt
   ;;   :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
-  ;;  (mode-line-emphasis :foreground (if -modeline-bright base8 highlight))
+  ;;  (mode-line-emphasis :foreground (if -modeline-bright base8 highlight)))
 
   ;;  ;;;; centaur-tabs
   ;;  (centaur-tabs-active-bar-face :background blue)
@@ -200,7 +206,7 @@ Can be an integer to determine the exact padding."
   ;;   :background modeline-bg-inactive-alt
   ;;   :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive-alt))))
 
-  ;;;; Base theme variable overrides-
+  ;;;; Base theme face overrides-
   ((bold        :weight 'bold :foreground (if bold 'unspecified base8))
     (bold-italic :inherit '(bold italic))
     (italic      :slant  'italic)
@@ -225,6 +231,8 @@ Can be an integer to determine the exact padding."
     (error   :foreground error)
     (warning :foreground warning)
     (success :foreground success)
+
+    ;; "#1f2428"
 
     ;;;; font-lock-* faces
     (font-lock-builtin-face              :foreground builtin)
@@ -954,7 +962,7 @@ Can be an integer to determine the exact padding."
     ;;;; hl-fill-column-face
     (hl-fill-column-face :inherit '(hl-line shadow))
     ;;;; hl-line (built-in)
-    (hl-line :background bg-alt :extend t)
+    (hl-line :background "#2B3036" :extend t)
     ;;;; hl-todo
     (hl-todo :foreground red :weight 'bold)
     ;;;; hlinum
@@ -1697,54 +1705,5 @@ Can be an integer to determine the exact padding."
     ;;;; --- END Package faces ------------------
     )
   "TODO")
-
-;;;; --- Package variables ------------------
-(defvar doom-themes-base-vars
-  '(
-    ;;;; ansi-color <built-in> DEPRECATED
-    (ansi-color-names-vector
-     (vconcat (mapcar #'doom-color '(bg red green yellow blue magenta cyan fg))))
-    ;;;; rustic <modes:rustic-mode>
-    (rustic-ansi-faces
-     (vconcat (mapcar #'doom-color '(bg red green yellow blue magenta cyan fg))))
-    ;;;; exwm
-    (exwm-floating-border-color (doom-color 'vertical-bar))
-    ;;;; fill-column-indicator
-    (fci-rule-color (doom-color 'base5))
-    ;;;; jdee <modes:jdee-mode>
-    (jdee-db-spec-breakpoint-face-colors `(cons ,(doom-color 'base0) ,(doom-color 'grey)))
-    (jdee-db-requested-breakpoint-face-colors `(cons ,(doom-color 'base0) ,(doom-color 'green)))
-    (jdee-db-active-breakpoint-face-colors `(cons ,(doom-color 'base0) ,(doom-color 'highlight)))
-    ;;;; highlight-tail
-    (highlight-tail-colors
-     `((,(doom-blend green bg 0.1) . 0)
-       (,(doom-blend cyan bg 0.1) . 20)))
-    ;;;; objed
-    (objed-cursor-color (doom-color 'red))
-    ;;;; pdf-tools
-    (pdf-view-midnight-colors `(cons ,(doom-color 'fg) ,(doom-color 'bg)))
-    ;;;; vc <built-in>
-    (vc-annotate-color-map
-     `(list (cons 20  ,(doom-color 'green))
-            (cons 40  ,(doom-blend 'yellow 'green (/ 1.0 3)))
-            (cons 60  ,(doom-blend 'yellow 'green (/ 2.0 3)))
-            (cons 80  ,(doom-color 'yellow))
-            (cons 100 ,(doom-blend 'orange 'yellow (/ 1.0 3)))
-            (cons 120 ,(doom-blend 'orange 'yellow (/ 2.0 3)))
-            (cons 140 ,(doom-color 'orange))
-            (cons 160 ,(doom-blend 'magenta 'orange (/ 1.0 3)))
-            (cons 180 ,(doom-blend 'magenta 'orange (/ 2.0 3)))
-            (cons 200 ,(doom-color 'magenta))
-            (cons 220 ,(doom-blend 'red 'magenta (/ 1.0 3)))
-            (cons 240 ,(doom-blend 'red 'magenta (/ 2.0 3)))
-            (cons 260 ,(doom-color 'red))
-            (cons 280 ,(doom-blend 'grey 'red (/ 1.0 4)))
-            (cons 300 ,(doom-blend 'grey 'red (/ 2.0 4)))
-            (cons 320 ,(doom-blend 'grey 'red (/ 3.0 4)))
-            (cons 340 ,(doom-color 'base5))
-            (cons 360 ,(doom-color 'base5))))
-    (vc-annotate-very-old-color nil)
-    (vc-annotate-background (doom-color 'bg)))
-  )
 
 ;;; doom-github-dark-dimmed-theme.el ends here
