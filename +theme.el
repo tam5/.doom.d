@@ -7,7 +7,7 @@
 ;; (setq doom-theme 'doom-github-dark-dimmed)
 
 ;; (setq doom-theme 'doom-one
-(setq doom-theme 'doom-github-dark-dimmed
+(setq doom-theme 'doom-github-classic-dark
       doom-themes-treemacs-theme "doom-colors")
 
 (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
