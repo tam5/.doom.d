@@ -64,7 +64,6 @@ Can be an integer to determine the exact padding."
    ;; editor hl line: #2B3036
    ;; indent guide? #2E363D
    ;;
-   ;; (doom-lighten )
    ;; These should represent a spectrum from bg to fg, where base0 is a starker
    ;; bg and base8 is a starker fg. For example, if bg is light grey and fg is
    ;; dark grey, base0 should be white and base8 should be black.
@@ -115,96 +114,7 @@ Can be an integer to determine the exact padding."
    (success        green)
    (vc-modified    "#2471CB")
    (vc-added       "#28A745")
-   (vc-deleted     "#EA4A5A")
-
-   )
-   ;; custom categories
-  ;;  (-modeline-bright doom-github-dark-dimmed-brighter-modeline)
-  ;;  (-modeline-pad
-  ;;   (when doom-github-dark-dimmed-padded-modeline
-  ;;     (if (integerp doom-github-dark-dimmed-padded-modeline) doom-github-dark-dimmed-padded-modeline 4)))
-
-  ;;  (modeline-fg     nil)
-  ;;  (modeline-fg-alt base5)
-
-  ;;  (modeline-bg
-  ;;   (if -modeline-bright
-  ;;       base3
-  ;;     `(,(doom-darken (car bg) 0.1) ,@(cdr base0))))
-  ;;  (modeline-bg-alt
-  ;;   (if -modeline-bright
-  ;;       base3
-  ;;     `(,(doom-darken (car bg) 0.15) ,@(cdr base0))))
-  ;;  (modeline-bg-inactive     `(,(car bg-alt) ,@(cdr base1)))
-  ;;  (modeline-bg-inactive-alt (doom-darken bg 0.1)))
-
-
-  ;;;; Base theme face overrides
-  ;; (((font-lock-comment-face &override)
-  ;;   :background (if doom-github-dark-dimmed-brighter-comments (doom-lighten bg 0.05)))
-  ;;  ((font-lock-keyword-face &override) :weight 'bold)
-  ;;  ((font-lock-constant-face &override) :weight 'bold)
-  ;;  ((line-number &override) :foreground base4)
-  ;;  ((line-number-current-line &override) :foreground fg)
-  ;;  (mode-line
-  ;;   :background modeline-bg :foreground modeline-fg
-  ;;   :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg)))
-  ;;  (mode-line-inactive
-  ;;   :background modeline-bg-inactive :foreground modeline-fg-alt
-  ;;   :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
-  ;;  (mode-line-emphasis :foreground (if -modeline-bright base8 highlight)))
-
-  ;;  ;;;; centaur-tabs
-  ;;  (centaur-tabs-active-bar-face :background blue)
-  ;;  (centaur-tabs-modified-marker-selected
-  ;;   :inherit 'centaur-tabs-selected :foreground blue)
-  ;;  (centaur-tabs-modified-marker-unselected
-  ;;   :inherit 'centaur-tabs-unselected :foreground blue)
-  ;;  ;;;; company
-  ;;  (company-tooltip-selection     :background dark-cyan)
-  ;;  ;;;; css-mode <built-in> / scss-mode
-  ;;  (css-proprietary-property :foreground orange)
-  ;;  (css-property             :foreground green)
-  ;;  (css-selector             :foreground blue)
-  ;;  ;;;; doom-modeline
-  ;;  (doom-modeline-bar :background blue)
-  ;;  (doom-modeline-evil-emacs-state  :foreground magenta)
-  ;;  (doom-modeline-evil-insert-state :foreground blue)
-  ;;  ;;;; elscreen
-  ;;  (elscreen-tab-other-screen-face :background "#353a42" :foreground "#1e2022")
-  ;;  ;;;; helm
-  ;;  (helm-selection :inherit 'bold
-  ;;                  :background selection
-  ;;                  :distant-foreground bg
-  ;;                  :extend t)
-  ;;  ;;;; markdown-mode
-  ;;  (markdown-markup-face :foreground base5)
-  ;;  (markdown-header-face :inherit 'bold :foreground red)
-  ;;  (markdown-url-face    :foreground teal :weight 'normal)
-  ;;  (markdown-reference-face :foreground base6)
-  ;;  ((markdown-bold-face &override)   :foreground fg)
-  ;;  ((markdown-italic-face &override) :foreground fg-alt)
-  ;;  ;;;; outline <built-in>
-  ;;  ((outline-1 &override) :foreground blue)
-  ;;  ((outline-2 &override) :foreground green)
-  ;;  ((outline-3 &override) :foreground teal)
-  ;;  ((outline-4 &override) :foreground (doom-darken blue 0.2))
-  ;;  ((outline-5 &override) :foreground (doom-darken green 0.2))
-  ;;  ((outline-6 &override) :foreground (doom-darken teal 0.2))
-  ;;  ((outline-7 &override) :foreground (doom-darken blue 0.4))
-  ;;  ((outline-8 &override) :foreground (doom-darken green 0.4))
-  ;;  ;;;; org <built-in>
-  ;;  ((org-block &override) :background base0)
-  ;;  ((org-block-begin-line &override) :foreground comments :background base0)
-  ;;  ;;;; solaire-mode
-  ;;  (solaire-mode-line-face
-  ;;   :inherit 'mode-line
-  ;;   :background modeline-bg-alt
-  ;;   :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-alt)))
-  ;;  (solaire-mode-line-inactive-face
-  ;;   :inherit 'mode-line-inactive
-  ;;   :background modeline-bg-inactive-alt
-  ;;   :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive-alt))))
+   (vc-deleted     "#EA4A5A"))
 
   ;;;; Base theme face overrides-
   ((bold        :weight 'bold :foreground (if bold 'unspecified base8))
@@ -231,8 +141,6 @@ Can be an integer to determine the exact padding."
     (error   :foreground error)
     (warning :foreground warning)
     (success :foreground success)
-
-    ;; "#1f2428"
 
     ;;;; font-lock-* faces
     (font-lock-builtin-face              :foreground builtin)
