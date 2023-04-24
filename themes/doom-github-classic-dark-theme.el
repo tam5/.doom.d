@@ -82,7 +82,7 @@ Can be an integer to determine the exact padding."
    ;; These *must* be included in every doom themes, or your theme will throw an
    ;; error, as they are used in the base theme defined in doom-themes-base.
    (highlight      blue)
-   (vertical-bar   (doom-darken base1 0.1))
+   (vertical-bar   (doom-darken base0 0.1))
    (selection      dark-blue)
    (builtin        red)
    (comments       (if doom-github-classic-dark-brighter-comments dark-cyan base5))
