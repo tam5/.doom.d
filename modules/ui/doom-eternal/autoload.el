@@ -1,8 +1,8 @@
 ;;; ui/doom-eternal/autoload.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
-(defun +doom-eternal/minibuffer-setup ()
-  "Perform extra setup for the minibuffer."
+(defun +doom-eternal/command-palette-setup ()
+  "Perform extra setup for the command palette."
   (dolist (frame (frame-list))
     (when (frame-parameter frame 'posframe-buffer)
       (when solaire-mode
@@ -27,7 +27,7 @@
 (defun doom-eternal/posframe-poshandler-frame-top-center-with-offset (info)
   "Modified version of `posframe-poshandler-frame-top-center', allowing
 customizable offset at the top."
-  (let ((offset doom-eternal/command-palette-offset-top))
+  (let ((offset doom-eternal/command-palette-offset-top-pixels))
     (cons (/ (- (plist-get info :parent-frame-width)
                 (plist-get info :posframe-width))
              2)
