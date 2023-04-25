@@ -17,11 +17,22 @@ and enjoy the ride!"
   :type 'integer
   :group 'doom-eternal)
 
+(defvar doom-eternal/frame-parameter-overrides-alist
+  '((ns-appearance . 'light)
+    (internal-border-width . 0))
+  "Alist of params to override when creating new frames. We don't
+just use `default-frame-alist`, as applying some of these parameters
+after the frame already exists has some visual benefits.")
+
 (defvar doom-eternal/command-palette-frame-parameter-overrides-alist
   '((undecorated . nil)
     (undecorated-round . t)
-    (ns-appearance . 'light)))
+    (ns-appearance . 'light))
+  "Alist of params to override when creating new command palette frames. We don't
+just use `default-frame-alist`, as applying some of these parameters
+after the frame already exists has some visual benefits.")
 
+  ;; (turn-off-solaire-mode) ;; todo this is not the best, rly we just want to exclude some buffers
 ;; ;; (add-to-list 'default-frame-alist '(undecorated-round . t))
 ;; ;; (add-to-list 'default-frame-alist '(internal-border-width . 0))
 
@@ -33,4 +44,6 @@ and enjoy the ride!"
    vertico-posframe-border-width 0
    vertico-posframe-poshandler #'doom-eternal/posframe-poshandler-frame-top-center-with-offset))
 
-(add-hook 'minibuffer-setup-hook #'+doom-eternal/setup-minibuffer)
+(add-hook 'minibuffer-setup-hook #'+doom-eternal/minibuffer-setup)
+(add-hook 'window-setup-hook #'+doom-eternal/initial-frame-setup)
+(add-hook 'after-make-frame-functions #'+doom-eternal/frame-setup)

@@ -11,20 +11,20 @@ customizable offset at the top."
           offset)))
 
 ;;;###autoload
-(defun +doom-eternal/setup-minibuffer ()
+(defun +doom-eternal/minibuffer-setup ()
   ""
-  ;; (turn-off-solaire-mode) ;; todo this is not the best, rly we just want to exclude some buffers
   (dolist (frame (frame-list))
     (when (frame-parameter frame 'posframe-buffer)
       (dolist (pair doom-eternal/command-palette-frame-parameter-overrides-alist)
         (set-frame-parameter frame (car pair) (cdr pair))))))
 
-      ;; ;; explain? or functionify
-      ;; (set-frame-parameter frame 'undecorated nil)
-      ;; (set-frame-parameter frame 'undecorated-round t)
-      ;; (set-frame-parameter frame 'ns-appearance 'light))))
+;;;###autoload
+(defun +doom-eternal/frame-setup (frame)
+  ""
+  (dolist (pair doom-eternal/frame-parameter-overrides-alist)
+    (set-frame-parameter frame (car pair) (cdr pair))))
 
 ;;;###autoload
-(defun +doom-eternal/setup-window ()
+(defun +doom-eternal/initial-frame-setup ()
   ""
-  (set-frame-parameter (selected-frame) 'ns-appearance 'light))
+  (+doom-eternal/frame-setup (selected-frame)))
