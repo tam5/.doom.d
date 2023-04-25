@@ -16,19 +16,30 @@
 ;;      'defaults write org.gnu.Emacs HideDocumentIcon YES' from the
 ;;      command line.
 
-(add-to-list 'default-frame-alist '(undecorated-round . t))
 
 (setq
  ;; The default font to use
   doom-font (font-spec :family "MesloLGL Nerd Font" :size 15 :weight 'normal)
- ; doom-font (font-spec :family "Menlo" :size 14 :weight 'normal)
 
  ;; The font to use for other things, like the sidebar
- doom-variable-pitch-font (font-spec :family "Monaco" :size 13)
+ doom-variable-pitch-font (font-spec :family "Monaco" :size 13))
 
- ;; Remove the extra nosie from the titlebar
- frame-title-format nil)
+      ;; (after! git-gutter-fringe
+      ;;   (define-fringe-bitmap 'git-gutter-fr:added [224]
+      ;;     nil nil '(center repeated))
+      ;;   (define-fringe-bitmap 'git-gutter-fr:modified [32 64 192]
+      ;;     nil nil '(center repeated))
 
+      ;;   ;; 216 176 96
+      ;;   ;; (define-fringe-bitmap 'git-gutter-fr:modified [1 3 12]
+      ;;   ;;   nil nil '(center repeated))
+
+      ;;   ;; 11011000
+      ;;   ;; 10110000
+      ;;   ;; 01100000
+      ;;   ;; 10110000
+      ;;   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
+      ;;     nil nil 'bottom))
 ;; ┌────────────────────────────────────────────────────────────────────────────┐
 ;; │                               Indent Guides                                │
 ;; └────────────────────────────────────────────────────────────────────────────┘
@@ -49,6 +60,8 @@
 ;; ┌────────────────────────────────────────────────────────────────────────────┐
 ;; │                                  Flycheck                                  │
 ;; └────────────────────────────────────────────────────────────────────────────┘
+
+(setq flycheck-indication-mode 'left-fringe)
 
 (flycheck-define-error-level 'error
   :severity 100
