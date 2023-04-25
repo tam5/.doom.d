@@ -32,12 +32,12 @@ after the frame already exists has some visual benefits.")
 just use `default-frame-alist`, as applying some of these parameters
 after the frame already exists has some visual benefits.")
 
-  ;; (turn-off-solaire-mode) ;; todo this is not the best, rly we just want to exclude some buffers
-;; ;; (add-to-list 'default-frame-alist '(undecorated-round . t))
-;; ;; (add-to-list 'default-frame-alist '(internal-border-width . 0))
+(defface doom-eternal/command-palette-face
+  '((t (:inherit t)))
+  ""
+  :group 'doom-eternal)
 
-;; ;; for some reason this has a different affect after the frame is already created, but it makes things more minimal so that's what we want
-;; (add-hook 'window-setup-hook #'(lambda () (set-frame-parameter (selected-frame) 'ns-appearance 'light)))
+(set-face-attribute 'doom-eternal/command-palette-face nil :background "orange")
 
 (after! vertico-posframe
   (setq
