@@ -123,7 +123,8 @@ Can be an integer to determine the exact padding."
 
 
   ;;;; Base theme face overrides
-  (((line-number &override) :foreground base3)
+  (((line-number &override) :foreground base3 :italic nil)
+   ((line-number-current-line &override) :italic nil)
 
     (hl-line :background base2)
     (cursor :background fg)

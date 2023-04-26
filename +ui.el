@@ -61,30 +61,6 @@
 ;; │                                  Flycheck                                  │
 ;; └────────────────────────────────────────────────────────────────────────────┘
 
-(setq flycheck-indication-mode 'left-fringe)
-
-(flycheck-define-error-level 'error
-  :severity 100
-  :compilation-level 2
-  :overlay-category 'flycheck-error-overlay
-  :fringe-bitmap 'my/fringe-bitmap-circle
-  :fringe-face 'flycheck-fringe-error
-  :error-list-face 'flycheck-error-list-error)
-(flycheck-define-error-level 'warning
-  :severity 10
-  :compilation-level 1
-  :overlay-category 'flycheck-warning-overlay
-  :fringe-bitmap 'my/fringe-bitmap-circle
-  :fringe-face 'flycheck-fringe-warning
-  :error-list-face 'flycheck-error-list-warning)
-(flycheck-define-error-level 'info
-  :severity -10
-  :compilation-level 0
-  :overlay-category 'flycheck-info-overlay
-  :fringe-bitmap 'my/fringe-bitmap-circle
-  :fringe-face 'flycheck-fringe-info
-  :error-list-face 'flycheck-error-list-info)
-
 ;; ┌────────────────────────────────────────────────────────────────────────────┐
 ;; │                                  Treemacs                                  │
 ;; └────────────────────────────────────────────────────────────────────────────┘

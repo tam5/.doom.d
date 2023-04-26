@@ -1,6 +1,38 @@
 ;;; ui/doom-eternal/autoload.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
+(defvar doom-eternal/bitmap--diagonal-lines
+  [#b10010000
+   #b00110000
+   #b01100000
+   #b11000000]
+  "Bitmap for diagonal lines.")
+
+;;;###autoload
+(defvar doom-eternal/bitmap--vertical-bar-left
+  [#b11110000]
+  "Bitmap for 4px wide vertical bar on the left half.")
+
+;;;###autoload
+(defvar doom-eternal/bitmap--triangle-lower-left
+  [#b10000000
+   #b11000000
+   #b11100000
+   #b11110000]
+  "Bitmap for a triangle on the lower left half.")
+
+;;;###autoload
+(defvar doom-eternal/bitmap--circle-medium
+  [#b00000000
+   #b00111000
+   #b01111100
+   #b01111100
+   #b01111100
+   #b00111000
+   #b00000000]
+  "Bitmap for a medium sized circle.")
+
+;;;###autoload
 (defun +doom-eternal/command-palette-setup ()
   "Perform extra setup for the command palette."
   (dolist (frame (frame-list))
@@ -9,6 +41,7 @@
         (with-current-buffer (window-buffer (frame-selected-window frame))
           (dolist (attribute '(:background))
             (set-face-attribute 'solaire-default-face frame attribute (face-attribute 'doom-eternal/command-palette-face attribute)))))
+      ;; (setq-local header-line-format "asdf")
       (dolist (pair doom-eternal/command-palette-frame-parameter-overrides-alist)
         (set-frame-parameter frame (car pair) (cdr pair))))))
 
