@@ -1,7 +1,7 @@
 ;;; ui/doom-eternal/autoload.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
-(defvar doom-eternal/bitmap--diagonal-lines
+(defconst doom-eternal/bitmap--diagonal-lines
   [#b10010000
    #b00110000
    #b01100000
@@ -9,12 +9,12 @@
   "Bitmap for diagonal lines.")
 
 ;;;###autoload
-(defvar doom-eternal/bitmap--vertical-bar-left
+(defconst doom-eternal/bitmap--vertical-bar-left
   [#b11110000]
   "Bitmap for 4px wide vertical bar on the left half.")
 
 ;;;###autoload
-(defvar doom-eternal/bitmap--triangle-lower-left
+(defconst doom-eternal/bitmap--triangle-lower-left
   [#b10000000
    #b11000000
    #b11100000
@@ -22,7 +22,7 @@
   "Bitmap for a triangle on the lower left half.")
 
 ;;;###autoload
-(defvar doom-eternal/bitmap--circle-medium
+(defconst doom-eternal/bitmap--circle-medium
   [#b00000000
    #b00111000
    #b01111100

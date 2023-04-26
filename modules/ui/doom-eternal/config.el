@@ -56,12 +56,22 @@ after the frame already exists has some visual benefits."
 
 ;; Done in a hook to ensure loading as late as possible
 (add-hook! 'doom-after-modules-config-hook
+  (if (fboundp 'fringe-mode) (fringe-mode '(8 . 0)))
   (after! git-gutter-fringe
     (define-fringe-bitmap 'git-gutter-fr:added doom-eternal/bitmap--vertical-bar-left nil nil '(center repeated))
     (define-fringe-bitmap 'git-gutter-fr:modified doom-eternal/bitmap--diagonal-lines nil nil '(top repeated))
-    (define-fringe-bitmap 'git-gutter-fr:deleted doom-eternal/bitmap--triangle-lower-left nil nil 'bottom)))
+    (define-fringe-bitmap 'git-gutter-fr:deleted doom-eternal/bitmap--triangle-lower-left nil nil 'bottom))
+  (after! flycheck
+    (setq flycheck-indication-mode 'left-margin)
+    (setq-default left-margin-width 1
+                  right-margin-width 0)))
 
-; (set-face-attribute 'minibuffer-prompt nil :background "red")
+
+;; (get 'error 'flycheck-fringe-bitmaps) ??
+
+;; (set-window-buffer nil (current-buffer))
+
+;; (set-face-attribute 'line-number nil :background "red" :box '(:line-width -5 :color "blue") :underline '(:color "green"))
 
 ;; (flycheck-define-error-level 'error
 ;;   :severity 100
