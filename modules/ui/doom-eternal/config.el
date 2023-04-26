@@ -66,8 +66,7 @@ after the frame already exists has some visual benefits."
 
   (after! flycheck
     (define-fringe-bitmap '+doom-eternal/flycheck-fringe-bitmap doom-eternal/bitmap--circle-medium nil nil 'center)
-    (flycheck-redefine-standard-error-levels "●" '+doom-eternal/flycheck-fringe-bitmap)
-
+    (flycheck-redefine-standard-error-levels "⦁" '+doom-eternal/flycheck-fringe-bitmap)
     (setq flycheck-indication-mode 'left-margin)
 
     (setq-default left-margin-width 1
@@ -97,11 +96,22 @@ after the frame already exists has some visual benefits."
 
 ;; (set-face-attribute 'vertico-posframe-border nil :background "red")
 
-;; (defun my-change-minibuffer-prompt (orig-fun &rest args)
-;;   (let ((prompt (car args)))
-;;     (apply orig-fun
-;;            (if (string-prefix-p "Enter" "Enter")
-;;                (cons (concat "fookie ") (cdr args))
-;;              args))))
 
-;; (advice-add 'read-from-minibuffer :around #'my-change-minibuffer-prompt)
+(defun my-change-minibuffer-prompt (orig-fun &rest args)
+  (let ((prompt (car args)))
+    (apply orig-fun
+           (if (string-prefix-p "Enter" "Enter")
+               (cons (concat (
+
+let ((str "Larger Text")
+      (my-face `(:height ,(round (* 1.5 (face-attribute 'default :height))))))
+  (put-text-property 0 (length str) 'face my-face str)
+  str
+
+                              )
+
+
+                             ) (cdr args))
+             args))))
+
+(advice-add 'read-from-minibuffer :around #'my-change-minibuffer-prompt)
