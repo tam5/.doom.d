@@ -21,8 +21,9 @@
   (setq company-idle-delay 0
         company-minimum-prefix-length 0))
 
-(after! (persp-mode recentf-mode)
-  (add-to-list 'recentf-exclude persp-auto-save-fname))
+(after! (persp-mode recentf)
+  (add-to-list 'recentf-exclude
+               (concat "^" (regexp-quote (file-truename persp-save-dir)))))
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
