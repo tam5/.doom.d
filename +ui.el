@@ -24,22 +24,11 @@
  ;; The font to use for other things, like the sidebar
  doom-variable-pitch-font (font-spec :family "Monaco" :size 13))
 
-      ;; (after! git-gutter-fringe
-      ;;   (define-fringe-bitmap 'git-gutter-fr:added [224]
-      ;;     nil nil '(center repeated))
-      ;;   (define-fringe-bitmap 'git-gutter-fr:modified [32 64 192]
-      ;;     nil nil '(center repeated))
+;; (set-face-attribute 'default nil :background "red")
+;; (set-face-attribute 'solaire-default-face nil :background "green")
 
-      ;;   ;; 216 176 96
-      ;;   ;; (define-fringe-bitmap 'git-gutter-fr:modified [1 3 12]
-      ;;   ;;   nil nil '(center repeated))
+(setq frame-title-format nil)
 
-      ;;   ;; 11011000
-      ;;   ;; 10110000
-      ;;   ;; 01100000
-      ;;   ;; 10110000
-      ;;   (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240]
-      ;;     nil nil 'bottom))
 ;; ┌────────────────────────────────────────────────────────────────────────────┐
 ;; │                               Indent Guides                                │
 ;; └────────────────────────────────────────────────────────────────────────────┘

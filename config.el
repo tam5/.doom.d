@@ -21,6 +21,9 @@
   (setq company-idle-delay 0
         company-minimum-prefix-length 0))
 
+(after! (persp-mode recentf-mode)
+  (add-to-list 'recentf-exclude persp-auto-save-fname))
+
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
   :hook (prog-mode . copilot-mode)

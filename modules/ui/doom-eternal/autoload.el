@@ -41,7 +41,6 @@
         (with-current-buffer (window-buffer (frame-selected-window frame))
           (dolist (attribute '(:background))
             (set-face-attribute 'solaire-default-face frame attribute (face-attribute 'doom-eternal/command-palette-face attribute)))))
-      ;; (setq-local header-line-format "asdf")
       (dolist (pair doom-eternal/command-palette-frame-parameter-overrides-alist)
         (set-frame-parameter frame (car pair) (cdr pair))))))
 
