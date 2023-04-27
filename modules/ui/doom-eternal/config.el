@@ -103,33 +103,33 @@ after the frame already exists has some visual benefits."
 ;; (set-face-attribute 'vertico-posframe-border nil :background "red")
 
 
-(defun my-change-minibuffer-prompt (orig-fun &rest args)
-  (let ((prompt (car args)))
-    (apply orig-fun
-           (if (string-prefix-p "Enter" "Enter")
-               (cons (concat (let ((str "Large Text")
-                                   (my-face `(:height ,(round (* 1.5 (face-attribute 'default :height))))))
-                               (put-text-property 0 (length str) 'face my-face str)
-                               str))
-                     (cdr args))
-             args))))
+;; (defun my-change-minibuffer-prompt (orig-fun &rest args)
+;;   (let ((prompt (car args)))
+;;     (apply orig-fun
+;;            (if (string-prefix-p "Enter" "Enter")
+;;                (cons (concat (let ((str "Large Text")
+;;                                    (my-face `(:height ,(round (* 1.5 (face-attribute 'default :height))))))
+;;                                (put-text-property 0 (length str) 'face my-face str)
+;;                                str))
+;;                      (cdr args))
+;;              args))))
 
 ;; (advice-add 'read-from-minibuffer :around #'my-change-minibuffer-prompt)
 
 
 ;; (add-hook 'minibuffer-setup-hook #'my-draw-hline-in-minibuffer)
 
-(defun my-posframe-show (posframe-buffer &rest args)
-  "Modified posframe-show to display cursor in the POSFRAME-BUFFER."
-  (let ((posframe (posframe-show posframe-buffer args)))
-    (set-buffer posframe-buffer)
-    (setq cursor-type t)
-    (set-window-buffer (frame-root-window posframe) posframe-buffer)
-    posframe))
+;; (defun my-posframe-show (posframe-buffer &rest args)
+;;   "Modified posframe-show to display cursor in the POSFRAME-BUFFER."
+;;   (let ((posframe (posframe-show posframe-buffer args)))
+;;     (set-buffer posframe-buffer)
+;;     (setq cursor-type t)
+;;     (set-window-buffer (frame-root-window posframe) posframe-buffer)
+;;     posframe))
 
-(setq posframe-mouse-banish nil)
+;; (setq posframe-mouse-banish nil)
 
-(setq vertico-posframe-show-minibuffer-rules nil)
+;; (setq vertico-posframe-show-minibuffer-rules nil)
 
 ;; (defun aritest-display-line ()
 ;;   "Update count overlay `vertico--count-ov'."
@@ -148,79 +148,91 @@ after the frame already exists has some visual benefits."
 ;;     (create-image bar 'png)))
 
 
-(defun vertico--display-line ()
-  "Update count overlay `vertico--line-ov'."
-  (move-overlay vertico--line-ov (point-max) (point-max))
-  (overlay-put vertico--line-ov 'after-string "\n-line-\n"))
-
-;; (defun vertico--pseudo-cursor ()
-;;   "Update count overlay `vertico--line-ov'."
-;;   (move-overlay vertico--pseudo-cursor-ov (point-max) (point-max))
-;;   (overlay-put vertico--pseudo-cursor-ov 'after-string
-
-;; (let ((str " "))
-;;   (put-text-property 0 1 'display (create-vertical-bar-image 2 12) str)
-;;   str)))
-
-;;                ;; #(" " 0 1 (:display (create-vertical-bar-image 2 12)))))
-
-;;                ;; #(" " 0 1 'display (create-vertical-bar-image 2 12))))
-
-;; (defun create-vertical-bar-string ()
-;;   "Create a string with a space character replaced by a vertical bar image."
-;;   (propertize " " 'display (create-vertical-bar-image 2 12)))
-
-;; (create-vertical-bar-string)
-
-(defvar-local vertico--line-ov nil
+(defvar-local doom-eternal/vertico--input-underline-ov nil
   "Overlay showing the candidates.")
 
-(defvar-local vertico--pseudo-cursor-ov nil
+(defvar-local doom-eternal/vertico--pseudo-cursor-ov nil
   "Overlay showing the candidates.")
 
-(cl-defgeneric vertico--setup ()
+(defun doom-eternal/vertico--display-pseudo-cursor ()
+  "Update count overlay `doom-eternal/vertico--pseduo-cursor-ov'.
+The vertico-posframe serves as an enhanced visual representation of the
+minibuffer without altering its behavior. To emulate focus in this buffer,
+a pseudo cursor is necessary."
+  (move-overlay doom-eternal/vertico--pseudo-cursor-ov (point-max) (point-max))
+  (overlay-put doom-eternal/vertico--pseudo-cursor-ov 'after-string
+               (propertize " "
+                           'display `(space :width 0.25)
+                           'face 'cursor)))
+
+(defun doom-eternal/vertico--display-input-underline ()
+  "Update count overlay `doom-eternal/vertico--input-underline-ov'."
+  (move-overlay doom-eternal/vertico--input-underline-ov (point-max) (point-max))
+  (overlay-put doom-eternal/vertico--input-underline-ov 'after-string
+               (concat "" (propertize " "
+                           'display `(space :width 10)
+                           'face '(:underline "green" :underline-offset -10)))))
+
+(defun +doom-eternal/vertico--exhibit ()
+  "Exhibit completion UI."
+  (let ((buffer-undo-list t)) ;; Overlays affect point position and undo list!
+    (vertico--update 'interruptible)
+    (vertico--prompt-selection)
+    ;; (vertico--display-count)
+    (doom-eternal/vertico--display-pseudo-cursor)
+    ;; (doom-eternal/vertico--display-input-underline)
+    (vertico--display-candidates (vertico--arrange-candidates))))
+
+(defun +doom-eternal/vertico--setup ()
   "Setup completion UI."
   (setq vertico--input t
-        vertico--pseudo-cursor-ov (make-overlay (point-max) (point-max) nil t t)
-        vertico--line-ov (make-overlay (point-max) (point-max) nil t t)
+        doom-eternal/vertico--pseudo-cursor-ov (make-overlay (point-max) (point-max) nil t t)
+        doom-eternal/vertico--input-underline-ov (make-overlay (point-max) (point-max) nil t t)
         vertico--candidates-ov (make-overlay (point-max) (point-max) nil t t)
         vertico--count-ov (make-overlay (point-min) (point-min) nil t t))
   ;; Set priority for compatibility with `minibuffer-depth-indicate-mode'
   (overlay-put vertico--count-ov 'priority 1)
-  ;; (overlay-put vertico--candidates-ov 'priority 40)
+  (overlay-put doom-eternal/vertico--pseudo-cursor-ov 'priority 100)
   (setq-local completion-auto-help nil
               completion-show-inline-help nil)
   (use-local-map vertico-map)
   (add-hook 'pre-command-hook #'vertico--prepare nil 'local)
   (add-hook 'post-command-hook #'vertico--exhibit nil 'local))
 
-(defun debug-overlays ()
-  (message "Input: %s" vertico--input)
-  (message "vertico--candidates-ov: %s" vertico--candidates-ov)
-  (message "vertico--line-ov: %s" vertico--line-ov)
-  (message "vertico--count-ov: %s" vertico--candidates-ov))
+(defvar doom-eternal/vertico--prompt-remap-alist
+  '(("M-x " . "")))
 
-; (defvar my-posframe-buffer " *my-posframe-buffer*")
+(defun doom-eternal/vertico--remap-prompt (prompt)
+  (or (alist-get prompt doom-eternal/vertico--prompt-remap-alist nil nil 'equal)
+      prompt))
 
-; (posframe-delete " *my-posframe-buffer*")
+(defun +doom-eternal/read-from-minibuffer (orig-fun &rest args)
+  (message "args: %s" args)
+  (let ((prompt (doom-eternal/vertico--remap-prompt (car args))))
+  (message "prompt: '%s'" prompt)
+  (apply orig-fun (cons prompt (cdr args)))))
 
-; (when (posframe-workable-p)
-;   (posframe-show my-posframe-buffer
-;                  :string "This is a test"
-;                  :position (point)))
+(advice-add 'read-from-minibuffer :around #'+doom-eternal/read-from-minibuffer)
 
-(defun vertico--exhibit ()
-  "Exhibit completion UI."
-  (let ((buffer-undo-list t)) ;; Overlays affect point position and undo list!
-    (vertico--update 'interruptible)
-    (vertico--prompt-selection)
-    (vertico--display-count)
-    ;; (vertico--display-line)
-    (vertico--display-candidates (vertico--arrange-candidates))
-    ;; (with-current-buffer (window-buffer (minibuffer-window))
-    ;;   (setq-local cursor-type t)
-    ;;   (setq-local cursor-in-non-selected-windows 'box))
-    ))
+;; (advice-add 'vertico--setup :override #'+doom-eternal/vertico--setup)
+
+;; (advice-add 'vertico--exhibit :override #'+doom-eternal/vertico--exhibit)
+
+;; (advice-remove 'vertico--setup #'+doom-eternal/vertico--setup)
+
+;; (advice-remove 'vertico--exhibit #'+doom-eternal/vertico--exhibit)
+
+;; (defun vertico--exhibit ()
+;;   (let ((buffer-undo-list t)) ;; Overlays affect point position and undo list!
+;;     (vertico--update 'interruptible)
+;;     (vertico--prompt-selection)
+;;     (vertico--display-count)
+;;     ;; (vertico--display-line)
+;;     (vertico--display-candidates (vertico--arrange-candidates))
+;;     ;; (with-current-buffer (window-buffer (minibuffer-window))
+;;     ;;   (setq-local cursor-type t)
+;;     ;;   (setq-local cursor-in-non-selected-windows 'box))
+;;     ))
 
 ;; (setq focus-follows-mouse t)
 
@@ -259,9 +271,6 @@ after the frame already exists has some visual benefits."
 ;; (add-hook 'minibuffer-setup-hook #'my-full-width-minibuffer-underline)
 
 
-
-
-
 ;; (use-package! vertico-posframe
 ;;   :hook (vertico-mode . vertico-posframe-mode)
 ;;   :config
@@ -279,48 +288,12 @@ after the frame already exists has some visual benefits."
 ;;         (insert hline)))))
 
 ;; (
- ;; add-hook 'minibuffer-setup-hook #'my-draw-hline-in-minibuffer)
-
-
-;; (defun aritest-debug-me ()
-;;   (remove-overlays)
-
-;;   (let ((overlay-2 (make-overlay (point-max) (point-max) nil t t))
-;;         (overlay-1 (make-overlay (point-max) (point-max) nil t t))
-;;         (overlay-3 (make-overlay (point-min) (point-min) nil t t)))
-;;     (overlay-put overlay-2 'before-string "2->") (overlay-put overlay-2 'priority 2)
-;;     (overlay-put overlay-3 'before-string "3->") (overlay-put overlay-3 'priority 3)
-;;     (overlay-put overlay-1 'before-string "1->") (overlay-put overlay-1 'priority 10)
-
-;;     ))
+ ;; add-hook 'minibuffer-setup-hook
 
 
 ;; useful stuff here:
 (defvar my-orig (symbol-function 'vertico-posframe--show))
-(fset 'vertico-posframe--show my-orig)
+;; (fset 'vertico-posframe--show my-orig)
 
 ;;  with after-string, higher priority means earlier in the buffer
 ;;  with before-string, higher priority means later in the buffer
-(defun aritest ()
-  (interactive)
-  (when (posframe-workable-p)
-    ;; (posframe-show (window-buffer (minibuffer-window))
-;; (let ((buffer (window-buffer (minibuffer-window))))
-(let ((buffer "scratch"))
-    (posframe-show buffer
-                   :accept-focus t
-                   :border-color "#ee7b29"
-                   :border-width 2
-                   :poshandler 'posframe-poshandler-frame-center
-                   :height (round(* (frame-height) 0.90))
-                   :width (round(* (frame-width) 0.75))
-                   ;; :override-parameters '((cursor-type box))
-                   )
-
-    ;; so thisworks we just need to move the point forward
-    ;; (with-current-buffer buffer
-    ;;   (setq-local cursor-type t)
-    ;;   (setq-local cursor-in-non-selected-windows 'box))
-    )))
-
-;;; so maybe i need to do more debugging on the whole refocus thing i guess and see what's going on

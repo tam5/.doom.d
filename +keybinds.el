@@ -56,6 +56,7 @@ to our most frequently used keybinds.")
  :n "h" #'evil-window-split
 
  :n "1" #'+treemacs/toggle
+ :n "x" #'aritest
 
  :n "ev" (lambda () (interactive) (find-file (concat doom-user-dir "config.el")))
  :n "ek" (lambda () (interactive) (find-file (concat doom-user-dir "+keybinds.el")))
