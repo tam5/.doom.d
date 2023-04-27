@@ -1,4 +1,37 @@
 ;;; ui/doom-eternal/config.el -*- lexical-binding: t; -*-
+;;; abcdef
+
+(progn
+  (put-text-property 63 68 'display '(raise 0.5))
+  (put-text-property 63 68 'face '(:underline (:color "red")))
+
+  (put-text-property 63 68 'line-spacing 3))
+
+
+  ;; (let* ((line-start (line-beginning-position))
+  ;;        (prompt-end (minibuffer-prompt-end))
+  ;;        (input-end (point-max))
+  ;;        (line-end (if (> input-end prompt-end) input-end prompt-end))
+  ;;        (overlay (make-overlay line-start line-end)))
+  ;;   (overlay-put overlay 'face '(:overline t :underline nil :weight normal :foreground "red"))
+  ;;   (overlay-put overlay 'line-height 0.1))
+
+;; (save-excursion
+;;   (goto-char (point-min))
+;;  (let* ((line-start 0)
+;;          (input-end (line-end-position))
+;;          (input-width (- input-end line-start))
+;;          (window-width (window-text-width))
+;;          (line-end (min input-end (+ 0 window-width))))
+;;     (when (> input-width 0)
+;;       (let ((overlay (make-overlay (point-min) (point-min))))
+;;         (overlay-put overlay 'line-height 0.1)
+;;         (overlay-put overlay 'after-string (propertize "uuuu" 'face '(:overline t :forgeground "blue")))
+;;         (overlay-put overlay 'face '(:overline t :underline nil :weight normal :foreground "red" :background "green"))
+;;         (move-overlay overlay (point-min) (line-end-position))
+
+
+;;         ))))
 
 (defgroup doom-eternal nil
   "Doom Eternal: When plain old Doom Emacs just isn't enough.
@@ -46,6 +79,39 @@ after the frame already exists has some visual benefits."
   '((t (:inherit t)))
   "Face for the command palette background."
   :group 'doom-eternal)
+
+(defface doom-eternal/command-palette-input-underline-face
+  '((t (:inherit t)))
+  "Face for the command palette background."
+  :group 'doom-eternal)
+
+(set-face-attribute 'doom-eternal/command-palette-input-underline-face nil :background nil)
+
+(set-face-attribute 'doom-eternal/command-palette-input-underline-face nil :foreground nil)
+
+(set-face-attribute 'doom-eternal/command-palette-input-underline-face nil :underline '(:color "orange" :offset 2))
+
+;; (set-face-attribute 'doom-eternal/command-palette-input-underline-face nil :height 150)
+
+(set-face-attribute 'doom-eternal/command-palette-input-underline-face nil :line-spacing 3)
+
+(with-temp-buffer
+  (insert "x1")
+  (put-text-property 2 3 'display '(raise 0.5))
+  (message "%s" (buffer-string))
+  (sit-for 3))
+
+(put-text-property 0 10 'line-spacing 3)
+
+;; (setq underline-minimum-offset 4)
+
+(setq underline-minimum-offset 40)
+
+;; (insert (propertize "ssdf"
+;;                     'face '(:underline (:color "red"))
+;;                     'line-height 20
+;;                     'line-spacing 20
+;;                     ))
 
 ;; (add-hook 'window-setup-hook #'+doom-eternal/initial-frame-setup)
 ;; (add-hook 'after-make-frame-functions #'+doom-eternal/frame-setup)
@@ -178,6 +244,30 @@ a pseudo cursor is necessary."
   (let ((buffer-undo-list t)) ;; Overlays affect point position and undo list!
     (vertico--update 'interruptible)
     (vertico--prompt-selection)
+    (progn
+ ;;      (let ((line (make-overlay (point-min)
+ ;;                                (point-max))))
+ ;;        (overlay-put line 'after-string (propertize " "
+ ;; 'face '(:overline t :underline nil :weight normal :foreground "red" :background "blue"))
+ ;;                                                    ))
+        ;; (overlay-put line 'line-height 1))
+
+      (let* ((inhibit-modification-hooks t)
+            (prompt-length (- (point-max) (minibuffer-prompt-end)))
+            (padding-length 10))
+            ;; (padding-length (- (window-width) prompt-length)))
+        (add-face-text-property (minibuffer-prompt-end) (point-max) 'doom-eternal/command-palette-input-underline-face 'append)
+        (princ (format "length %s" prompt-length))
+        (princ (pp prompt-length))
+        (princ (format "width %s" (window-width)))
+        (princ (format "des %s" padding-length))
+        (save-excursion
+          (insert (propertize (make-string padding-length ?\s) 'face 'doom-eternal/command-palette-input-underline-face))
+          )
+        ;; (insert (number-to-string prompt-length))
+        )
+
+      )
     ;; (vertico--display-count)
     (doom-eternal/vertico--display-pseudo-cursor)
     ;; (doom-eternal/vertico--display-input-underline)
@@ -213,6 +303,35 @@ a pseudo cursor is necessary."
   (apply orig-fun (cons prompt (cdr args)))))
 
 (advice-add 'read-from-minibuffer :around #'+doom-eternal/read-from-minibuffer)
+
+
+
+
+
+;; (defun my-minibuffer-setup-hook ()
+;;   "Customize minibuffer prompt behavior."
+;;   (setq-local my-minibuffer-prompt (minibuffer-prompt-end))
+;;   (add-hook 'post-command-hook 'my-minibuffer-post-command-hook nil t))
+
+;; (defun my-minibuffer-post-command-hook ()
+;;   "Modify minibuffer input as needed."
+;;   (when (eq (selected-window) (minibuffer-window))
+;;     (let ((input (buffer-substring-no-properties my-minibuffer-prompt (point-max))))
+;;       (when (string-match "abc" input)
+;;         (let ((modified-input (replace-regexp-in-string "abc" "bca" input)))
+;;           (delete-region my-minibuffer-prompt (point-max))
+;;           (insert modified-input))))))
+
+
+
+
+;; (let ((input "abc"))
+;;   (minibuffer-with-setup-hook
+;;       (lambda ()
+;;         (setq-local face-remapping-alist '((default (:foreground "red")))))
+;;     (let ((inhibit-message t))
+;;       (minibuffer-message (propertize input 'face 'bold)))))
+
 
 ;; (advice-add 'vertico--setup :override #'+doom-eternal/vertico--setup)
 
