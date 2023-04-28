@@ -69,8 +69,8 @@ after the frame already exists has some visual benefits."
 
 (after! vertico-posframe
   (setq vertico-posframe-border-width 0
-        vertico-posframe-parameters '((left-fringe . 0)
-                                      (right-fring . 0))
+        vertico-posframe-parameters '((left-fringe . 20)
+                                      (right-fring . 20))
         vertico-posframe-width 100 ;; TODO make more dynamic ish
         vertico-posframe-poshandler #'doom-eternal/posframe-poshandler-frame-top-center-with-offset))
 
@@ -130,7 +130,7 @@ a pseudo cursor is necessary."
     (doom-eternal/vertico--display-input-underline)
     (vertico--display-candidates (vertico--arrange-candidates))))
 
-(defun +doom-eternal/vertico--setup ()
+(cl-defmethod vertico--setup ()
   "Setup completion UI."
   (setq vertico--input t
         doom-eternal/vertico--pseudo-cursor-ov (make-overlay (point-max) (point-max) nil t t)
@@ -139,8 +139,8 @@ a pseudo cursor is necessary."
         vertico--count-ov (make-overlay (point-min) (point-min) nil t t))
   ;; Set priority for compatibility with `minibuffer-depth-indicate-mode'
   (overlay-put vertico--count-ov 'priority 1)
-  (overlay-put doom-eternal/vertico--input-underline-ov 'priority 3)
-  (overlay-put doom-eternal/vertico--pseudo-cursor-ov 'priority 2)
+  (overlay-put doom-eternal/vertico--input-underline-ov 'priority 2)
+  (overlay-put doom-eternal/vertico--pseudo-cursor-ov 'priority 3)
   (setq-local completion-auto-help nil
               completion-show-inline-help nil)
   (use-local-map vertico-map)
@@ -159,9 +159,4 @@ a pseudo cursor is necessary."
   (apply orig-fun (cons prompt (cdr args)))))
 
 (advice-add 'read-from-minibuffer :around #'+doom-eternal/read-from-minibuffer)
-
-(advice-add 'vertico--setup :override #'+doom-eternal/vertico--setup)
 (advice-add 'vertico--exhibit :override #'+doom-eternal/vertico--exhibit)
-
-;; (advice-remove 'vertico--setup #'+doom-eternal/vertico--setup)
-;; (advice-remove 'vertico--exhibit #'+doom-eternal/vertico--exhibit)
