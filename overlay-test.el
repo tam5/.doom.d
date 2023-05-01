@@ -2,11 +2,23 @@ my t
 my other text
 and more text
 
-(put-text-property 0 3 'face '(:background "red"))
-
 (progn
   (remove-overlays)
-  (create-line-overlay 1 5 4 4))
+  (save-excursion
+    (goto-char (point-min))
+      (make-line-smaller (line-beginning-position 1) (line-end-position 1))))
+
+(defun make-line-smaller (start end)
+  (let ((overlay (make-overlay start end)))
+        (overlay-put overlay 'before-string
+                     (propertize
+                      " \n"
+                      'face `(:background "orange" :family "Tiny" :height 0.01)
+                      'line-height 0.5
+                      'line-spacing -30
+                      ))))
+
+      ;; (overlay-put overlay 'after-string (apply #'propertize "    E" 0 4 props-list))
 
 (defun create-line-overlay (start end above-px below-px)
   "Create an underline overlay for the region between START and END.
