@@ -21,6 +21,9 @@ after the frame already exists has some visual benefits."
   :type '(alist :key-type symbol :value-type sexp)
   :group 'doom-eternal)
 
+;; Remove arrow icons in the fringe
+(setq-default fringe-indicator-alist (assq-delete-all 'truncation fringe-indicator-alist))
+
 (after! vertico-posframe
   (when (modulep! +command-palette)
     (doom-eternal-command-palette-mode +1)))

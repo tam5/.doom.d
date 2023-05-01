@@ -17,8 +17,8 @@
 (defcustom doom-eternal-command-palette/posframe-parameter-overrides-alist
   '((undecorated . nil)
     (undecorated-round . t)
-    (left-fringe . 0)
-    (right-fringe . 0)
+    (left-fringe . 8)
+    (right-fringe . 8)
     ;; (header-line-format . '"asdf")
     ;; (mode-line-format . '"asdf")
     (internal-border-width . 0)
@@ -104,7 +104,7 @@ making it look more like a traditional input field."
     (vertico--prompt-selection)
     ;; (vertico--display-count)
     (doom-eternal-command-palette/display-pseudo-cursor)
-    (doom-eternal-command-palette/display-input-underline)
+    ;; (doom-eternal-command-palette/display-input-underline)
     (vertico--display-candidates (vertico--arrange-candidates))))
 
 ;;;###autoload
@@ -142,7 +142,7 @@ customizable offset at the top."
          vertico-posframe-poshandler #'posframe-poshandler-frame-top-center-with-offset)
         (cl-defmethod vertico--setup ()
           (+doom-eternal-command-palette/vertico--setup))
-        ;; (add-hook 'minibuffer-setup-hook #'+doom-eternal-command-palette/frame-setup)
+        (add-hook 'minibuffer-setup-hook #'+doom-eternal-command-palette/frame-setup)
         (advice-add 'vertico--exhibit :override #'+doom-eternal-command-palette/vertico--exhibit)
         (advice-add 'read-from-minibuffer :around #'+doom-eternal-command-palette/read-from-minibuffer))
     (progn
