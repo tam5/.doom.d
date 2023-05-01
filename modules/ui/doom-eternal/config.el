@@ -80,7 +80,7 @@ after the frame already exists has some visual benefits."
 The vertico-posframe serves as an enhanced visual representation of the
 minibuffer without altering its behavior. To emulate focus in this buffer,
 a pseudo cursor is necessary."
-  (move-overlay doom-eternal/vertico--pseudo-cursor-ov (point-max) (point-max))
+  (move-overlay doom-eternal/vertico--pseudo-cursor-ov (point) (point))
   (overlay-put doom-eternal/vertico--pseudo-cursor-ov 'after-string
                (propertize " "
                            'display `(space :width 0.25)
@@ -92,12 +92,10 @@ a pseudo cursor is necessary."
          (prompt-length (- (point-max) (minibuffer-prompt-end)))
          (remaining-length (- vertico-posframe-width prompt-length))
          (face 'doom-eternal/command-palette-input-underline-face))
-  (move-overlay doom-eternal/vertico--input-underline-ov (point-min) (point-max))
+    (move-overlay doom-eternal/vertico--input-underline-ov (point-min) (point-max))
     (overlay-put doom-eternal/vertico--input-underline-ov 'after-string
                  (propertize (make-string remaining-length ?\s) 'face face))
-    (add-face-text-property (minibuffer-prompt-end) (point-max) 'font-lock-comment-face 'append)
-
-    ))
+    (add-face-text-property (minibuffer-prompt-end) (point-max) face 'append)))
 
 (defun +doom-eternal/vertico--exhibit ()
   "Exhibit completion UI."
