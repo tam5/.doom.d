@@ -83,7 +83,6 @@ making it look more like a traditional input field."
 (defun +doom-eternal-command-palette/vertico--setup ()
   "Setup completion UI."
   (setq vertico--input t
-        vertico-posframe-width doom-eternal-command-palette/posframe-width
         doom-eternal-command-palette/pseudo-cursor-ov (make-overlay (point-max) (point-max) nil t t)
         doom-eternal-command-palette/input-underline-ov (make-overlay (point-max) (point-max) nil t t)
         vertico--candidates-ov (make-overlay (point-max) (point-max) nil t t)
@@ -124,7 +123,7 @@ making it look more like a traditional input field."
 (defun posframe-poshandler-frame-top-center-with-offset (info)
   "Modified version of `posframe-poshandler-frame-top-center', allowing
 customizable offset at the top."
-  (let ((offset 60))
+  (let ((offset 120))
     (cons (/ (- (plist-get info :parent-frame-width)
                 (plist-get info :posframe-width))
              2)
@@ -138,6 +137,9 @@ customizable offset at the top."
   :global t
   (if doom-eternal-command-palette-mode
       (progn
+        (setq
+         vertico-posframe-width doom-eternal-command-palette/posframe-width
+         vertico-posframe-poshandler #'posframe-poshandler-frame-top-center-with-offset)
         (cl-defmethod vertico--setup ()
           (+doom-eternal-command-palette/vertico--setup))
         ;; (add-hook 'minibuffer-setup-hook #'+doom-eternal-command-palette/frame-setup)
