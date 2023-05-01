@@ -17,13 +17,12 @@
 (defcustom doom-eternal-command-palette/posframe-parameter-overrides-alist
   '((undecorated . nil)
     (undecorated-round . t)
-    (left-fringe . 8)
-    (right-fringe . 8)
-    ;; (header-line-format . '"asdf")
-    ;; (mode-line-format . '"asdf")
+    (left-fringe . 0)
+    (right-fringe . 0)
+    (child-frame-border-width . 0)
     (internal-border-width . 0)
     (border-width . 0)
-    (ns-appearance . 'light))
+    (ns-appearance . light))
   "Alist of params to override when creating new command palette frames. We don't
 just use `default-frame-alist`, as applying some of these parameters
 after the frame already exists has some visual benefits."
@@ -149,12 +148,3 @@ customizable offset at the top."
         (remove-hook 'minibuffer-setup-hook #'+doom-eternal-command-palette/frame-setup)
         (advice-remove 'vertico--exhibit #'+doom-eternal-command-palette/vertico--exhibit)
         (advice-remove 'read-from-minibuffer #'+doom-eternal-command-palette/read-from-minibuffer))))
-
-;; (after! vertico-posframe
-;;   (setq vertico-posframe-border-width 0
-;;         vertico-posframe-parameters '((left-fringe . 8)
-;;                                       (right-fringe . 8)
-;;                                       (border-width . 0)
-;;                                       (left-margin . 20)
-;;                                       (right-margin . 20)
-;;                                       (internal-border-width . 0))
