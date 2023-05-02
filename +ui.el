@@ -71,12 +71,5 @@
 
 ;; (add-variable-watcher 'svg-lib-style-default #'my-variable-watcher)
 
-(use-package! svg-lib
-  :after marginalia
-  :init (add-hook 'after-setting-font-hook (lambda () (setq svg-lib-style-default (svg-lib-style-compute-default))))
-  :config (load! "lisp/keybinding-icons") ;; when it becomes its own package then we can remove this
-  (advice-add 'marginalia-annotate-binding :around #'keybinding-icons-iconify-binding-a)
-  (advice-add 'marginalia-annotate-command :override #'keybinding-icons-marginalia-annotate-command-a))
-
 ;; (add-hook 'doom-load-theme-hook #'my/refresh-keybinding-icons)
 

@@ -1,5 +1,6 @@
 ;;; ui/doom-eternal/autoload/+command-palette.el -*- lexical-binding: t; -*-
 
+(require 'marginalia)
 (require 'vertico-posframe)
 
 (defgroup doom-eternal-command-palette nil
@@ -106,6 +107,34 @@ making it look more like a traditional input field."
     ;; (doom-eternal-command-palette/display-input-underline)
     (vertico--display-candidates (vertico--arrange-candidates))))
 
+(defun +doom-eternal-command-palette/vertico--format-candidate (cand prefix suffix index _start)
+  "Format CAND given PREFIX, SUFFIX and INDEX."
+  (setq cand (vertico--display-string
+              (concat prefix
+                      (propertize " " 'display '(space :width 2))
+                      (propertize cand 'display '(raise -0.4))
+                      (propertize " " 'display '(space :width 2))
+                      "\n"
+                      (propertize " " 'display '(space :width 2))
+                      (propertize suffix 'face 'marginalia-documentation 'display '(raise 0.4))
+                      (propertize " " 'display '(space :width 2))
+                      "\n"
+                      )))
+  (when (= index vertico--index)
+    (add-face-text-property 0 (length cand) 'vertico-current 'append cand))
+  cand)
+
+;; candidate: what-cursor-position
+;; prefix:
+;; suffix: Print info on cursor position (on screen and within buffer).
+;; index: 15
+;; start: 0
+(defun +doom-eternal-command-palette/annotate-command (cand)
+  ""
+  (when-let (sym (intern-soft cand))
+    (marginalia--fields
+     (:left (concat (marginalia--function-doc sym)) :truncate 1.0))))
+
 ;;;###autoload
 (defun +doom-eternal-command-palette/frame-setup ()
   "Perform setup for the command palette's frame."
@@ -129,6 +158,14 @@ customizable offset at the top."
           offset)))
 
 ;;;###autoload
+(defun doom-eternal/toggle-command-palette-mode ()
+  "Toggle `doom-eternal-command-palette-mode'."
+  (interactive)
+  (if doom-eternal-command-palette-mode
+      (doom-eternal-command-palette-mode -1)
+    (doom-eternal-command-palette-mode 1)))
+
+;;;###autoload
 (define-minor-mode doom-eternal-command-palette-mode
   "Minor mode for the command palette."
   :lighter "" ; should be obvious enough
@@ -136,15 +173,20 @@ customizable offset at the top."
   :global t
   (if doom-eternal-command-palette-mode
       (progn
-        (setq
-         vertico-posframe-width doom-eternal-command-palette/posframe-width
-         vertico-posframe-poshandler #'posframe-poshandler-frame-top-center-with-offset)
-        (cl-defmethod vertico--setup ()
-          (+doom-eternal-command-palette/vertico--setup))
+        (setq vertico-posframe-width doom-eternal-command-palette/posframe-width
+              vertico-count 8
+              ;; vertico-posframe-height 20
+              vertico-posframe-poshandler #'posframe-poshandler-frame-top-center-with-offset)
+
+        (cl-defmethod vertico--setup (&rest args)
+          (apply #' +doom-eternal-command-palette/vertico--setup args))
+        (cl-defmethod vertico--format-candidate (&rest args)
+          (apply #'+doom-eternal-command-palette/vertico--format-candidate args))
         (add-hook 'minibuffer-setup-hook #'+doom-eternal-command-palette/frame-setup)
         (advice-add 'vertico--exhibit :override #'+doom-eternal-command-palette/vertico--exhibit)
+        (advice-add 'marginalia-annotate-command :override #'+doom-eternal-command-palette/annotate-command)
         (advice-add 'read-from-minibuffer :around #'+doom-eternal-command-palette/read-from-minibuffer))
-    (progn
-        (remove-hook 'minibuffer-setup-hook #'+doom-eternal-command-palette/frame-setup)
-        (advice-remove 'vertico--exhibit #'+doom-eternal-command-palette/vertico--exhibit)
-        (advice-remove 'read-from-minibuffer #'+doom-eternal-command-palette/read-from-minibuffer))))
+    (remove-hook 'minibuffer-setup-hook #'+doom-eternal-command-palette/frame-setup)
+    (advice-remove 'vertico--exhibit #'+doom-eternal-command-palette/vertico--exhibit)
+    ;; (advice-remove 'marginalia-annotate-command #'+doom-eternal-command-palette/annotate-command)
+    (advice-remove 'read-from-minibuffer #'+doom-eternal-command-palette/read-from-minibuffer)))
