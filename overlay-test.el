@@ -1,4 +1,4 @@
-my t
+my test thing
 my other text
 and more text
 
@@ -6,7 +6,22 @@ and more text
   (remove-overlays)
   (save-excursion
     (goto-char (point-min))
-      (make-line-smaller (line-beginning-position 1) (line-end-position 1))))
+    (put-text-property (line-beginning-position 1) (line-end-position 1) 'face '(:box (:color "black" :line-width (0 . 20))))
+      (create-line-overlay (line-beginning-position 1) (line-end-position 1) 8 4)
+      ))
+
+(defun create-multicolor-box (text top-color right-color bottom-color left-color)
+  "Create a multicolor box around the text using display properties."
+  (concat
+   (propertize " " 'display `((space :align-to 0 :height (1 . ,top-color))))
+   (propertize " " 'display `((space :width 0 :background ,left-color)))
+   text
+   (propertize " " 'display `((space :width 0 :background ,right-color)))
+   (propertize "\n")
+   (propertize " " 'display `((space :align-to 0 :height (1 . ,bottom-color))))))
+
+(let ((text "Hello, world!"))
+  (insert (create-multicolor-box text "red" "green" "blue" "yellow")))
 
 (defun make-line-smaller (start end)
   (let ((overlay (make-overlay start end)))
