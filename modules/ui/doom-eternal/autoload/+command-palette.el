@@ -7,7 +7,7 @@
   "Give Emacs a command palette like Sublime Text."
   :group 'doom-eternal)
 
-(defcustom doom-eternal-command-palette/posframe-width 100
+(defcustom doom-eternal-command-palette/posframe-width 30
   "The width the command palette."
   :type 'integer)
 
@@ -75,9 +75,12 @@ This overlay enhances the UI by adding a horizontal line under the input,
 making it look more like a traditional input field."
   (let* ((width vertico-posframe-width)
          (face 'doom-eternal-command-palette/input-underline-face))
-    (move-overlay doom-eternal-command-palette/input-underline-ov (point-min) (point-max))
+    (move-overlay doom-eternal-command-palette/input-underline-ov (minibuffer-prompt-end) (point-max))
     (overlay-put doom-eternal-command-palette/input-underline-ov 'after-string
-                 (concat "" (propertize (make-string width ?\s) 'face face)))
+                 (concat
+                  ;; (propertize " " 'display `(space :width 4))
+                  (propertize (make-string width ?\s) 'face face)))
+    (overlay-put doom-eternal-command-palette/input-underline-ov 'before-string (propertize " " 'display '(space :width 3)))
     (add-face-text-property (minibuffer-prompt-end) (point-max) face 'append)))
 
 (defun +doom-eternal-command-palette/vertico--setup ()
@@ -104,20 +107,20 @@ making it look more like a traditional input field."
     (vertico--prompt-selection)
     ;; (vertico--display-count)
     (doom-eternal-command-palette/display-pseudo-cursor)
-    ;; (doom-eternal-command-palette/display-input-underline)
+    (doom-eternal-command-palette/display-input-underline)
     (vertico--display-candidates (vertico--arrange-candidates))))
 
 (defun +doom-eternal-command-palette/vertico--format-candidate (cand prefix suffix index _start)
   "Format CAND given PREFIX, SUFFIX and INDEX."
   (setq cand (vertico--display-string
               (concat prefix
-                      (propertize " " 'display '(space :width 2))
-                      (propertize cand 'display '(raise -0.4))
-                      (propertize " " 'display '(space :width 2))
+                      (propertize " " 'display '(space :width 3))
+                      (propertize cand 'face '(:weight semi-bold :height 0.9 :family "Helvetica Neue") 'display '(raise -0.4))
+                      (propertize " " 'display '(space :width 3))
                       "\n"
-                      (propertize " " 'display '(space :width 2))
-                      (propertize suffix 'face 'marginalia-documentation 'display '(raise 0.4))
-                      (propertize " " 'display '(space :width 2))
+                      (propertize " " 'display '(space :width 4))
+                      (propertize suffix 'face '(:inherit 'marginalia-documentation :height 0.80 :slant italic) 'display '(raise 0.4))
+                      (propertize " " 'display '(space :width 3))
                       "\n"
                       )))
   (when (= index vertico--index)
@@ -174,6 +177,7 @@ customizable offset at the top."
   (if doom-eternal-command-palette-mode
       (progn
         (setq vertico-posframe-width doom-eternal-command-palette/posframe-width
+              vertico-posframe-min-width 70
               vertico-count 8
               ;; vertico-posframe-height 20
               vertico-posframe-poshandler #'posframe-poshandler-frame-top-center-with-offset)
