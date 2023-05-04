@@ -16,6 +16,7 @@
 (load! "+keybinds")
 (load! "+ui")
 (load! "+theme")
+(load! "+liveintent")
 
 (after! company
   (setq company-idle-delay 0
