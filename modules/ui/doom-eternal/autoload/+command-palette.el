@@ -40,9 +40,6 @@ after the frame already exists has some visual benefits."
   "Face for the command palette input underline."
   :group 'doom-eternal-command-palette)
 
-(defvar-local doom-eternal-command-palette/left-input-padding-ov nil
-  "Overlay showing the input underline.")
-
 (defvar-local doom-eternal-command-palette/input-underline-ov nil
   "Overlay showing the input underline.")
 
@@ -55,9 +52,8 @@ after the frame already exists has some visual benefits."
 
 (defun doom-eternal-command-palette/remap-prompt (prompt)
   "Apply configured prompt remappings."
-  (concat (propertize "|" 'display `(space :width 20))
-          (or (alist-get prompt doom-eternal-command-palette/prompt-remap-alist nil nil 'equal)
-              prompt)))
+  (or (alist-get prompt doom-eternal-command-palette/prompt-remap-alist nil nil 'equal)
+      prompt))
 
 (defun +doom-eternal-command-palette/read-from-minibuffer (orig-fun &rest args)
   "Remap the minibuffer prompt before calling `read-from-minibuffer'."
@@ -73,15 +69,6 @@ a pseudo cursor is necessary."
   (overlay-put doom-eternal-command-palette/pseudo-cursor-ov 'after-string
                (propertize " " 'display `(space :width 0.25) 'face 'cursor)))
 
-(defun doom-eternal-command-palette/display-left-input-padding ()
-  "Update the overlay `doom-eternal-command-palette/pseduo-cursor-ov'.
-The vertico-posframe serves as an enhanced visual representation of the
-minibuffer without altering its behavior. To emulate focus in this buffer,
-a pseudo cursor is necessary."
-  (move-overlay doom-eternal-command-palette/left-input-padding-ov (point-min) (point-min))
-  (overlay-put doom-eternal-command-palette/left-input-padding-ov 'before-string
-               (propertize "abc " 'display `(space :width 3) 'face 'highlight)))
-
 (defun doom-eternal-command-palette/display-input-underline ()
   "Update the overlay `doom-eternal-command-palette/input-underline-ov'.
 This overlay enhances the UI by adding a horizontal line under the input,
@@ -95,7 +82,6 @@ making it look more like a traditional input field."
          (raise-factor (/ adjusted-line-height (float font-height-px)))
          (overlay doom-eternal-command-palette/input-underline-ov))
     (setq-local underline-minimum-offset above-px)
-    ;; (create-line-overlay (point-min) (point-max) 8 4)
     (move-overlay overlay (point-min) (point-max))
       (overlay-put overlay 'before-string (apply #'propertize " " 0 1 '(display (space :width 3) face highlight)))
       (overlay-put overlay 'display `(raise ,raise-factor))
@@ -108,26 +94,9 @@ making it look more like a traditional input field."
     ;; (add-face-text-property (minibuffer-prompt-end) (point-max) face 'append)
     ))
 
-(defun create-line-overlay (start end above-px below-px)
-  "Create an underline overlay for the region between START and END.
-PADDING-ABOVE specifies the number of pixels above the horizontal line.
-PADDING-BELOW specifies the number of pixels below the horizontal line."
-  (let* ((font-height-px (frame-char-height))
-         (adjusted-line-height (+ above-px below-px))
-         (raise-factor (/ adjusted-line-height (float font-height-px))))
-    (setq-local underline-minimum-offset above-px)
-    (let ((overlay (make-overlay start end))
-          (props-list `(face (:underline (:color "red" :position ,below-px))
-                        display (raise ,raise-factor))))
-      ;; (overlay-put overlay 'after-string (apply #'propertize "    E" 0 4 props-list))
-      (overlay-put overlay 'before-string (apply #'propertize " " 0 1 '(display (space :width 3))))
-      (overlay-put overlay 'display `(raise ,raise-factor))
-      (overlay-put overlay 'face `(:underline (:color "red" :position ,below-px))))))
-
 (defun +doom-eternal-command-palette/vertico--setup ()
   "Setup completion UI."
   (setq vertico--input t
-        doom-eternal-command-palette/left-input-padding-ov (make-overlay (point-max) (point-max) nil t t)
         doom-eternal-command-palette/pseudo-cursor-ov (make-overlay (point-max) (point-max) nil t t)
         doom-eternal-command-palette/input-underline-ov (make-overlay (point-max) (point-max) nil t t)
         vertico--candidates-ov (make-overlay (point-max) (point-max) nil t t)
@@ -135,7 +104,6 @@ PADDING-BELOW specifies the number of pixels below the horizontal line."
   ;; Set priority for compatibility with `minibuffer-depth-indicate-mode'
   (overlay-put vertico--count-ov 'priority 1)
   (overlay-put doom-eternal-command-palette/input-underline-ov 'priority 2)
-  (overlay-put doom-eternal-command-palette/left-input-padding-ov 'priority 2)
   (overlay-put doom-eternal-command-palette/pseudo-cursor-ov 'priority 3)
   (setq-local completion-auto-help nil
               completion-show-inline-help nil)
@@ -148,8 +116,6 @@ PADDING-BELOW specifies the number of pixels below the horizontal line."
   (let ((buffer-undo-list t)) ;; Overlays affect point position and undo list!
     (vertico--update 'interruptible)
     (vertico--prompt-selection)
-    ;; (vertico--display-count)
-    ;; (doom-eternal-command-palette/display-left-input-padding)
     (doom-eternal-command-palette/display-pseudo-cursor)
     (doom-eternal-command-palette/display-input-underline)
     (vertico--display-candidates (vertico--arrange-candidates))))
@@ -163,7 +129,7 @@ PADDING-BELOW specifies the number of pixels below the horizontal line."
                       (propertize " " 'display '(space :width 3))
                       "\n"
                       (propertize " " 'display '(space :width 4))
-                      (propertize suffix 'face '(:inherit 'marginalia-documentation :height 0.80 :slant italic) 'display '(raise 0.4))
+                      (propertize suffix 'face '(:inherit marginalia-documentation :height 0.80 :slant italic) 'display '(raise 0.4))
                       (propertize " " 'display '(space :width 3))
                       "\n"
                       )))
@@ -222,7 +188,7 @@ customizable offset at the top."
       (progn
         (setq vertico-posframe-width doom-eternal-command-palette/posframe-width
               vertico-posframe-min-width 70
-              vertico-count 8
+              vertico-count 8 ;; max candidates at a time
               ;; vertico-posframe-height 20
               vertico-posframe-poshandler #'posframe-poshandler-frame-top-center-with-offset)
 

@@ -33,3 +33,18 @@
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+(use-package! lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))
+
+(after! orderless
+  (defun +vertico-orderless-dispatch-a  (orig-fun &rest args)
+    "Use flex matching by default. There's probably a more straightforward
+way you're supposed to do this, but wtvr."
+    (or (apply orig-fun args)
+        (cons 'orderless-flex (car args))))
+
+  (advice-add '+vertico-orderless-dispatch :around #'+vertico-orderless-dispatch-a))

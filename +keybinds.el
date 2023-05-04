@@ -81,3 +81,7 @@ to our most frequently used keybinds.")
 (map!
  :map messages-buffer-mode-map
  "s-k" #'my/buffer-clear-force)
+
+(map!
+ :map vterm-mode-map
+ "s-k" #'vterm-clear)

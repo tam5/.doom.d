@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: class-method
+# uuid: b4e413f5-47a4-40f2-abfe-8df550009250
+# key: met
+# condition: t
+# --
+${1:method_name}(${2:args}) {
+    ${3://}
+}
