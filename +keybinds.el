@@ -66,8 +66,17 @@ to our most frequently used keybinds.")
 (map!
  :v "I" #'evil-mc-make-cursor-in-visual-selection-beg
  :v "A" #'evil-mc-make-cursor-in-visual-selection-end
+ :n "gr" #'lsp-find-references)
 
+(map!
+ :mode evil-markdown-mode
+ :nvi "s-b" #'markdown-insert-bold
+ :nvi "s-i" #'markdown-insert-italic
+ :i "M-`" (lambda () (interactive) (insert "`")))
+
+(map!
  :prefix my/leader-key
+ :n "f" #'evil-avy-goto-word-0
  :n "a" #'lsp-execute-code-action)
 
 ;; personal hacks and emacs secific keybinds
